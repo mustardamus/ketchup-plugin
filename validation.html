@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <title>Ketchup Plugin</title>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.validations.example.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body>
+    <ul id="toc">
+      <li><a href="index.html#what">What is the Ketchup Plugin about?</a></li>
+      <li><a href="index.html#basic">Ketchup right out of the box. Basic validations.</a></li>
+      <li><a href="yourway.html">Have it your way. Error-Container styling and behaviour.</a></li>
+      <li><a href="validation.html">You need to validate in a different way? Make your own Ketchup!</a></li>
+      <li><a href="support.html">Support and Bug reports.</a></li>
+    </ul>
+    
+    <div id="wrapper">
+      <h1 id="validation">You need to validate in a different way? Make your own Ketchup!</h1>
+      <p>
+        If the basic validations are not enough you can extend the Ketchup Plugin with ease. Lets see how to do it.
+      </p>
+      
+      <h2>Without arguments</h2>
+      <p>
+        Lets create a validation that take no arguments and simply checks the for the word '<i>tomato</i>'.
+      </p>
+      
+      <h2>Without arguments - Example Form</h2>
+      <pre><code>&lt;form action="validation.html" id="example3"&gt;
+  &lt;div&gt;
+    &lt;label for="ex3_tomato"&gt;Tomatos only&lt;/label&gt;
+    &lt;input type="text" id="ex3_tomato" class="<span>validate(tomato)</span>" /&gt;
+  &lt;/div&gt;
+  &lt;div class="submit"&gt;
+    &lt;input type="submit" value="Ketchup it!" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+
+      <h2>Without arguments - Set the error message</h2>
+      <p>
+        First we need to set the error message that gets displayed in case validation do not pass. Either extend the file <code>jquery.ketchup.messages.js</code> or set your own messages in your own script file:
+      </p>
+      <pre><code>$.fn.ketchup.messages = {
+  'tomato': 'I only like tomato!'
+}</code></pre>
+
+      <h2>Without arguments - Write the validation function</h2>
+      <p>
+        Next we extend Ketchup with our validation function that simply checks for the word '<i>tomato</i>'. Validation functions must return <code>true</code> or <code>false</code>. The first two arguments in the validation function must be the <code>field</code> element and the <code>value</code>. You can use these objects in your validation like so:
+      </p>
+      <pre><code>$.fn.ketchup.validation('tomato', function(element, value) {
+  if(value == 'tomato') return true;
+  else return false;
+});</code></pre>
+
+      <h2>Without arguments - Activate Ketchup</h2>
+      <p>
+        Now just activate Ketchup like you normally would do. We use the default settings in this example:
+      </p>
+      <pre><code>$(document).ready(function() {
+  $('#example3').ketchup();
+});</code></pre>
+      
+      <h2>Without arguments - Outcome</h2>
+      <form action="validation.html" id="example3">
+        <div>
+          <label for="ex3_tomato">Tomatos only</label>
+          <input type="text" id="ex3_tomato" class="validate(tomato)" />
+        </div>
+        <div class="submit">
+          <input type="submit" value="Ketchup it!" />
+        </div>
+      </form>
+      
+      <h2>With arguments</h2>
+      <p>
+        Sometimes you need to validate two or more fields with the same function but with different informations. Ketchup's validation function can take as many arguments as you want. In this example we validate that the value is one of two words.
+      </p>
+      
+      <h2>With arguments - Example Form</h2>
+      <pre><code>&lt;form action="validation.html" id="example4"&gt;
+  &lt;div&gt;
+    &lt;label for="ex4_yesno"&gt;Yes or No&lt;/label&gt;
+    &lt;input type="text" id="ex3_yesno" class="validate(<span>either(yes,no)</span>)" /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex4_km"&gt;Ketchup or Mustard&lt;/label&gt;
+    &lt;input type="text" id="ex3_km" class="validate(<span>either(ketchup,mustard)</span>)" /&gt;
+  &lt;/div&gt;
+  &lt;div class="submit"&gt;
+    &lt;input type="submit" value="Ketchup it!" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+
+      <h2>With arguments - Set the error message</h2>
+      <p>
+        You can format the output message with place holders for the arguments ($arg1, $arg2, $arg3...) you passing into your validation function. In our example the two words we want to check for:
+      </p>
+      <pre><code>$.fn.ketchup.messages = {
+  'either': 'Must be either <span>$arg1</span> or <span>$arg2</span>.'
+}</code></pre>
+
+      <h2>With arguments - Write the validation function</h2>
+      <p>
+        Now to the interesting part. You remember that the first two arguments for a validation function must be <code>field</code> and <code>value</code>? Every argument after these belongs to you, or better, to your validation function you set in your markup. We want to check for two words, two arguments:
+      </p>
+      <pre><code>$.fn.ketchup.validation('either', function(element, value, <span>word1</span>, <span>word2</span>) {
+  var valueL = value.toLowerCase();
+
+  if(valueL == <span>word1</span>.toLowerCase() || valueL == <span>word2</span>.toLowerCase()) return true;
+  else return false;
+});</code></pre>
+
+      <h2>With arguments - Activate Ketchup</h2>
+      <p>
+        Activate Ketchup on the form and voilà:
+      </p>
+      <pre><code>$(document).ready(function() {
+  $('#example4').ketchup();
+});</code></pre>
+      
+      <h2>With arguments - Outcome</h2>
+      <form action="validation.html" id="example4">
+        <div>
+          <label for="ex4_yesno">Yes or No</label>
+          <input type="text" id="ex3_yesno" class="validate(either(yes,no))" />
+        </div>
+        <div>
+          <label for="ex4_km">Ketchup or Mustard</label>
+          <input type="text" id="ex3_km" class="validate(either(ketchup,mustard))" />
+        </div>
+        <div class="submit">
+          <input type="submit" value="Ketchup it!" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

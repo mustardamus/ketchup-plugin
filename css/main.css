@@ -1,0 +1,141 @@
+html { font-size: 16px; }
+body {
+  font-size: 62.5%;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #333333;
+  background: url(../images/bg.jpg) no-repeat fixed white;
+  padding-left: 360px;
+}
+#toc {
+  position: fixed;
+  top: 260px;
+  left: 30px;
+  width: 200px;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+#toc li {
+  font-size: 1.4em;
+  line-height: 22px;
+  margin-top: 20px;
+}
+#toc li a {
+  color: #222222;
+  text-decoration: none;
+  border-bottom: 1px solid #f7b4a8;
+  padding-bottom: 2px;
+}
+#toc li a:hover {
+  color: #111111;
+  border-bottom: 1px solid #cd2300;
+  background: none;
+}
+#toc li:first-child { margin-top: 0; }
+#wrapper {
+  width: 670px;
+  margin: 20px 0 80px 0;
+}
+h1 {
+  font-size: 2.2em;
+  border-bottom: 3px solid #cd2300;
+  padding: 60px 0 5px 0;
+  margin-bottom: 24px;
+}
+h2 {
+  font-size: 1.6em;
+  margin-bottom: 18px;
+  padding-top: 20px;
+}
+h3 {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eeeeee;
+  padding: 10px 0 2px 0;
+}
+h3 span {
+  font-size: 0.9em;
+  color: #aaaaaa;
+  font-weight: normal;
+  padding-left: 20px;
+}
+p {
+  font-size: 1.4em;
+  line-height: 18px;
+  margin-bottom: 14px;
+}
+a { color: #cd2300; }
+a:hover {
+  background: #cd2300;
+  color: white;
+}
+pre {
+  margin: 0 22px 22px 22px;
+  font-size: 1.3em;
+  line-height: 16px;
+  background: #333333;
+  color: white;
+  padding: 15px;
+  border: 1px dotted #cd2300;
+  overflow: auto;
+  text-shadow: 1px 1px 0 #111111;
+}
+pre span { color: #f7b4a8; }
+form {
+  margin: 0 22px 22px 22px;
+  border: 1px dotted #cd2300;
+  padding: 15px;
+}
+form div { margin-bottom: 10px; }
+form label {
+  display: block;
+  font-size: 1.3em;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+form input {
+  width: 510px;
+  padding: 5px;
+}
+form textarea {
+  width: 510px;
+  padding: 5px;
+}
+form p {
+  float: left;
+  padding-right: 10px;
+  margin-bottom: 0;
+  color: #555555;
+  font-size: 1.3em;
+}
+form p input { width: auto; }
+form .clear {
+  clear: both;
+  margin: 0;
+}
+form .submit {
+  text-align: right;
+  margin-bottom: 0;
+}
+form .submit input {
+  width: auto;
+  cursor: pointer;
+}
+.ketchup-error-container-alt {
+  margin: 10px;
+  width: 510px;
+  display: none;
+}
+.ketchup-error-container-alt li {
+  background: #f04d5b;
+  color: black;
+  padding: 3px 10px 3px 10px;
+  font-size: 11px;
+  margin-bottom: 3px;
+  boder-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <title>Ketchup Plugin</title>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.messages.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.validations.basic.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body>
+    <ul id="toc">
+      <li><a href="index.html#what">What is the Ketchup Plugin about?</a></li>
+      <li><a href="index.html#basic">Ketchup right out of the box. Basic validations.</a></li>
+      <li><a href="yourway.html">Have it your way. Error-Container styling and behaviour.</a></li>
+      <li><a href="validation.html">You need to validate in a different way? Make your own Ketchup!</a></li>
+      <li><a href="support.html">Support and Bug reports.</a></li>
+    </ul>
+    
+    <div id="wrapper">
+      <h1 id="style">Have it your way. Error-Container styling and behaviour.</h1>
+      <p>
+        Ketchup provides some callbacks to completely control the markup and show/hide behaviour of the error-container, which simply can be styled via CSS.
+        Lets check out these callbacks and create an alternative Ketchup.
+      </p>
+      
+      <h2>Example Form</h2>
+      
+      <pre><code>&lt;form action="index.html" id="example2"&gt;
+  &lt;div&gt;
+    &lt;label for="ex2_username"&gt;Username&lt;/label&gt;
+    &lt;input type="text" id="ex2_username" <span>rel="validate(required,username,rangelength(5,20))"</span> /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex2_email"&gt;E-Mail&lt;/label&gt;
+    &lt;input type="text" id="ex2_email" <span>rel="validate(required,email)"</span> /&gt;
+  &lt;/div&gt;
+  &lt;div class="submit"&gt;
+    &lt;input type="Submit" value="(Try to) Submit" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+
+      <h2>Alternative Attribute for the validate() functions</h2>
+      <p>
+        You may have noticed that we put the <code>validate()</code> functions not in the <code>class</code> but the <code>rel</code> attribute.
+        Tell Ketchup where to look for <code>validate()</code> functions via the <code>validationAttribute</code> parameter:
+      </p>
+      <pre><code>$('#example2').ketchup({
+  <span>validationAttribute: 'rel'</span>
+});</code></pre>
+
+      <h2>Your own error-container markup</h2>
+      <p>
+        Ketchup don't force any markup on you. Build your own error-container, either with HTML code in a
+        string or the <a href="http://jqapi.com/#p=jQuery">element builder</a> as shown in the example via the <code>errorContainer</code> parameter:
+      </p>
+      <p>
+        <strong>Important:</strong> Your error-container <u>must</u> contain an empty ordered list somewhere (<code>&lt;ol&gt;&lt;/ol&gt;</code>).
+        Validation errors will be inserted there.
+      </p>
+      <pre><code>$('#example2').ketchup({
+  validationAttribute: 'rel',
+  <span>errorContainer: $('&lt;div&gt;', {
+    'class': 'ketchup-error-container-alt',
+    html: '&lt;ol&gt;&lt;/ol&gt;'
+  })</span>
+});</code></pre>
+      
+      <h2>Set initial position for your error-container</h2>
+      <p>
+        You can position your error-container initially when the DOM is loaded. This is good if you want to have an overlay effect like in the default
+        behaviour. In this example we want to display validation errors below the text fields. The <code>initialPositionContainer</code>
+        callback gives you <code>errorContainer</code> and <code>field</code> arguments to work with. In this example we don't need to position our
+        error-container so we overwrite this callback with an empty function:
+      </p>
+      <pre><code>$('#example2').ketchup({
+  validationAttribute: 'rel',
+  errorContainer: $('&lt;div&gt;', {
+    'class': 'ketchup-error-container-alt',
+    html: '&lt;ol&gt;&lt;/ol&gt;'
+  }),
+  <span>initialPositionContainer: function(errorContainer, field) {
+    //errorContainer = the error-container with all childs
+    //field = the field that needs to get validated
+  }</span>
+});</code></pre>
+
+      <h2>Re-set the error-container position</h2>
+      <p>
+        You also can re-set the error-container when the number of validation errors change. This is done via the <code>positionContainer</code>
+        callback. Again this callback provides the <code>errorContainer</code> and <code>field</code> arguments. Our example always appears under
+        the field to validate, so we do not want to re-set the error-container position so we call an empty function again:
+      </p>
+      <pre><code>$('#example2').ketchup({
+  validationAttribute: 'rel',
+  errorContainer: $('&lt;div&gt;', {
+    'class': 'ketchup-error-container-alt',
+    html: '&lt;ol&gt;&lt;/ol&gt;'
+  }),
+  initialPositionContainer: function(errorContainer, field) {
+    //errorContainer = the error-container with all childs
+    //field = the field that needs to get validated
+  },
+  <span>positionContainer: function(errorContainer, field) {}</span>
+});</code></pre>
+      
+      <h2>Show and hide the error-container</h2>
+      <p>
+        The <code>showContainer</code> and <code>hideContainer</code> callbacks gives you control how the error-container is shown when validation errors
+        occur and how to hide when there are no validation errors. In our example we use <a href="http://jqapi.com/#p=slideDown"><code>slideDown</code></a>
+        when there are validation errors and <a href="http://jqapi.com/#p=slideUp"><code>slideUp</code></a> when everything is OK:
+      </p>
+      <pre><code>$('#example2').ketchup({
+  validationAttribute: 'rel',
+  errorContainer: $('&lt;div&gt;', {
+    'class': 'ketchup-error-container-alt',
+    html: '&lt;ol&gt;&lt;/ol&gt;'
+  }),
+  initialPositionContainer: function(errorContainer, field) {
+    //errorContainer = the error-container with all childs
+    //field = the field that needs to get validated
+  },
+  positionContainer: function(errorContainer, field) {},
+  <span>showContainer: function(errorContainer) {
+    errorContainer.slideDown('fast');
+  },
+  hideContainer: function(errorContainer) {
+    errorContainer.slideUp('fast');
+  }</span>
+});</code></pre>
+
+      <h2>Style your error-container</h2>
+      <p>
+        Since you have the control over the error-container markup you also have full control over the styling. This is our example CSS:
+      </p>
+      <pre><code>.ketchup-error-container-alt { margin: 10px; width: 510px; display: none; }
+.ketchup-error-container-alt li {
+  background: #F04D5B;
+  color: black;
+  padding: 3px 10px 3px 10px;
+  font-size: 11px;
+  margin-bottom: 3px;
+  boder-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}</code></pre>
+      
+      <h2>Outcome (Try to submit the form)</h2>
+      <form action="yourway.html" id="example2">
+        <div>
+          <label for="ex2_username">Username</label>
+          <input type="text" id="ex2_username" rel="validate(required,username,rangelength(5,20))" />
+        </div>
+        <div>
+          <label for="ex2_email">E-Mail</label>
+          <input type="text" id="ex2_email" rel="validate(required,email)" />
+        </div>
+        <div class="submit">
+          <input type="Submit" value="(Try to) Submit" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

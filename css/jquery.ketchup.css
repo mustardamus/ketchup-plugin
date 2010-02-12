@@ -1,0 +1,30 @@
+.ketchup-error-container {
+  display: none;
+  position: absolute;
+  width: auto;
+}
+
+.ketchup-error-container ol {
+  font-size: 12px;
+  color: #111;
+  background: red;
+  background: rgba(255, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  list-style: none;
+  line-height: 16px;
+}
+
+.ketchup-error-container span {
+  display: block;
+  width: 0; 
+  height: 0; 
+  border-left: 0 solid transparent; 
+  border-right: 15px solid transparent;
+  border-top: 10px solid red;
+  border-top: 10px solid rgba(255, 0, 0, 0.6);
+  border-bottom: 0;
+  margin-left: 10px;
+}

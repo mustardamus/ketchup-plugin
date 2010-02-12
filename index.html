@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <title>Ketchup Plugin</title>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.messages.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.validations.basic.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body>
+    <ul id="toc">
+      <li><a href="#what">What is the Ketchup Plugin about?</a></li>
+      <li><a href="#basic">Ketchup right out of the box. Basic validations.</a></li>
+      <li><a href="yourway.html">Have it your way. Error-Container styling and behaviour.</a></li>
+      <li><a href="validation.html">You need to validate in a different way? Make your own Ketchup!</a></li>
+      <li><a href="support.html">Support and Bug reports.</a></li>
+    </ul>
+    
+    <div id="wrapper">
+      <h1 id="what">What is the Ketchup Plugin about?</h1>
+      <p>
+        Ketchup is a slim jQuery Plugin that validates your forms. It aims to be very flexible and extendable for its appearance
+        and functionality.
+      </p>
+      <p>
+        Don't like the default styling? Change it! Need another mark up? Edit it! No validation fits your needs?
+        Write your own! Make your own ketchup with ease.
+      </p>
+      
+      
+      <h1 id="basic">Ketchup right out of the box. Basic validations.</h1>
+      <p>
+        Although Ketchup is designed to be styled and extended by you it already looks tasty and gives you the most common
+        validations by default. Lets check that out.
+      </p>
+      
+      <h2>Setup</h2>
+      <p>
+        First we need to set everything up to use Ketchup. Nothing easier than that. Include jQuery and the Ketchup stylesheet and scripts in your header:
+      </p>
+      <pre><code>&lt;link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" /&gt;
+
+&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery.ketchup.js">&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery.ketchup.messages.js">&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery.ketchup.validations.basic.js">&lt;/script&gt;</code></pre>
+      <p>
+        If you do plan to only use basic validations and the default messages you also can include the one package file instead of the
+        three Ketchup script files:
+      </p>
+      <pre><code>&lt;link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" /&gt;
+
+&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery.ketchup.basic.min.js">&lt;/script&gt;</code></pre>
+
+      <h2>Example Markup</h2>
+      <p>
+        Next we obviously need a form to validate. This is our first basic example form:
+      </p>
+      <pre><code>&lt;form action="index.html" id="example1"&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_username"&gt;Username&lt;/label&gt;
+    &lt;input type="text" id="ex1_username" /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_password"&gt;Password&lt;/label&gt;
+    &lt;input type="password" id="ex1_password" /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_password_conf"&gt;Password Confirmation&lt;/label&gt;
+    &lt;input type="password" id="ex1_password_conf" /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_roles"&gt;Speciality&lt;/label&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="jquery" /&gt; jQuery&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="js" /&gt; JavaScript&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="rails" /&gt; Rails&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="php" /&gt; PHP&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="wp" /&gt; Wordpress&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="other" /&gt; Other&lt;/p&gt;
+    &lt;div class="clear"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_about"&gt;About you&lt;/label&gt;
+    &lt;textarea id="ex1_about" rows="1"&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class="submit"&gt;
+    &lt;input type="submit" value="(Try to) Submit" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+      
+      <h2>Add your validation right in the Markup</h2>
+      <p>
+        By default Ketchup is looking in the <code>class</code> attribute of <code>input</code>, <code>textarea</code> and <code>select</code>
+        for <code>validate()</code> functions. Lets set them now:
+      </p>
+      
+      <pre><code>&lt;form action="index.html" id="example1"&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_username"&gt;Username&lt;/label&gt;
+    &lt;input type="text" id="ex1_username" <span>class="validate(required, username)"</span> /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_password"&gt;Password&lt;/label&gt;
+    &lt;input type="password" id="ex1_password" <span>class="validate(required)"</span> /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_password_conf"&gt;Password Confirmation&lt;/label&gt;
+    &lt;input type="password" id="ex1_password_conf" <span>class="validate(required, match(#ex1_password))"</span> /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_roles"&gt;Speciality&lt;/label&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="jquery" /&gt; jQuery&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="js" /&gt; JavaScript&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="rails" /&gt; Rails&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="php" /&gt; PHP&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="wp" /&gt; Wordpress&lt;/p&gt;
+    &lt;p&gt;&lt;input type="checkbox" name="role" value="other" <span>class="validate(rangeselect(1,3))"</span> /&gt; Other&lt;/p&gt;
+    &lt;div class="clear"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ex1_about"&gt;About you&lt;/label&gt;
+    &lt;textarea id="ex1_about" rows="1" <span>class="validate(rangelength(10,140))"</span>&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class="submit"&gt;
+    &lt;input type="submit" value="(Try to) Submit" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+      
+      <h2>Activate Ketchup</h2>
+      <p>One last simple step. We need to activate the Ketchup Plugin with the default settings on the form:</p>
+      <pre><code>$(document).ready(function() {
+  $('#example1').ketchup();
+});</code></pre>
+      
+      <h2>Outcome (Try to submit the form)</h2>
+      <form action="index.html" id="example1">
+        <div>
+          <label for="ex1_username">Username</label>
+          <input type="text" id="ex1_username" class="validate(required, username)" />
+        </div>
+        <div>
+          <label for="ex1_password">Password</label>
+          <input type="password" id="ex1_password" class="validate(required)" />
+        </div>
+        <div>
+          <label for="ex1_password_conf">Password Confirmation</label>
+          <input type="password" id="ex1_password_conf" class="validate(required, match(#ex1_password))" />
+        </div>
+        <div>
+          <label for="ex1_roles">Speciality</label>
+          <p><input type="checkbox" name="role" value="jquery" /> jQuery</p>
+          <p><input type="checkbox" name="role" value="js" /> JavaScript</p>
+          <p><input type="checkbox" name="role" value="rails" /> Rails</p>
+          <p><input type="checkbox" name="role" value="php" /> PHP</p>
+          <p><input type="checkbox" name="role" value="wp" /> Wordpress</p>
+          <p><input type="checkbox" name="role" value="other" class="validate(rangeselect(1,3))" /> Other</p>
+          <div class="clear"></div>
+        </div>
+        <div>
+          <label for="ex1_about">About you</label>
+          <textarea id="ex1_about" rows="1" class="validate(rangelength(10,140))"></textarea>
+        </div>
+        <div class="submit">
+          <input type="submit" value="(Try to) Submit" />
+        </div>
+      </form>
+      
+      <h2>Basic Validations</h2>
+      <p>
+        Ketchup comes with these pre-written basic validations (See them in the file <code>jquery.ketchup.validations.basic.js</code>
+        and the corresponding messages in <code>jquery.ketchup.messages.js</code>):
+      </p>
+      
+      <h3>required <span>validate(required)</span></h3>
+      <p>Makes the field required.</p>
+      
+      <h3>minlength(min) <span>validate(minlength(5))</span></h3>
+      <p>The value must have a minimal length of <code>min</code>.</p>
+      
+      <h3>maxlength(max) <span>validate(maxlength(10))</span></h3>
+      <p>The value must have a maximal length of <code>max</code>.</p>
+      
+      <h3>rangelength(min, max) <span>validate(rangelength(5,10))</span></h3>
+      <p>The value must have a length between <code>min</code> and <code>max</code>.</p>
+      
+      <h3>min(min) <span>validate(min(5))</span></h3>
+      <p>The number must be at least <code>min</code>.</p>
+      
+      <h3>max(max) <span>validate(max(10))</span></h3>
+      <p>The number must be not greater than <code>max</code>.</p>
+      
+      <h3>range(min, max) <span>validate(range(5,10))</span></h3>
+      <p>The number must be between <code>min</code> and <code>max</code>.</p>
+      
+      <h3>number <span>validate(number)</span></h3>
+      <p>The value must be a number.</p>
+      
+      <h3>digits <span>validate(digits)</span></h3>
+      <p>The value must be digits.</p>
+      
+      <h3>email <span>validate(email)</span></h3>
+      <p>The value must be a valid e-mail address.</p>
+      
+      <h3>url <span>validate(url)</span></h3>
+      <p>The value must be a valid URL.</p>
+      
+      <h3>username <span>validate(username)</span></h3>
+      <p>The value must be a valid username (a-z0-9_-).</p>
+      
+      <h3>match(selector) <span>validate(match(#password))</span></h3>
+      <p>The value must match the value of the field that can be found via the <code>selector</code>.</p>
+      
+      <h3>date <span>validate(date)</span></h3>
+      <p>The value must be a valid date.</p>
+      
+      <h3>minselect(min) <span>validate(minselect(2))</span></h3>
+      <p>There must be at least <code>min</code> checkboxes selected with the same <code>name</code>. Apply this validation only to one checkbox in the group.</p>
+      
+      <h3>maxselect(max) <span>validate(maxselect(6))</span></h3>
+      <p>No more than <code>max</code> selected checkboxes allowed with the same <code>name</code>. Apply this validation only to one checkbox in the group.</p>
+      
+      <h3>rangeslect(min, max) <span>validate(rangeselect(2,6))</span></h3>
+      <p>Allow between <code>min</code> and <code>max</code> selected checkboxes. Apply this validation only to one checkbox in the group.</p>
+      
+      <h2>Combining Validations</h2>
+      <p>You can combine validations by comma like this:</p>
+      <pre><code>&lt;input type="text" class="<span>validate(required, username, rangelength(3,20))</span>" /&gt;</code></pre>
+    </div>
+  </body>
+</html>

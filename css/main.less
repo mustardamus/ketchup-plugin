@@ -1,0 +1,54 @@
+/* compile with http://lesscss.org/ */
+
+html { font-size: 16px; }
+body { font-size: 62.5%; font-family: Helvetica, Arial, sans-serif; color: #333333; background: url(../images/bg.jpg) no-repeat fixed white; padding-left: 360px; }
+
+#toc { position: fixed; top: 260px; left: 30px; width: 200px; background: white; background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  li { font-size: 1.4em; line-height: 22px; margin-top: 20px;
+    a { color: #222; text-decoration: none; border-bottom: 1px solid #F7B4A8; padding-bottom: 2px; }
+    a:hover { color: #111; border-bottom: 1px solid #CD2300; background: none; }
+  }
+  li:first-child { margin-top: 0; }
+}
+
+#wrapper { width: 670px; margin: 20px 0 80px 0; }
+
+h1 { font-size: 2.2em; border-bottom: 3px solid #CD2300; padding: 60px 0 5px 0; margin-bottom: 24px; }
+h2 { font-size: 1.6em; margin-bottom: 18px; padding-top: 20px; }
+h3 { font-size: 1.4em; margin-bottom: 10px; border-bottom: 1px solid #eee; padding: 10px 0 2px 0;
+  span { font-size: 0.9em; color: #aaa; font-weight: normal; padding-left: 20px; }
+}
+
+p { font-size: 1.4em; line-height: 18px; margin-bottom: 14px; }
+a { color: #CD2300; }
+a:hover { background: #CD2300; color: white; }
+
+pre { margin: 0 22px 22px 22px; font-size: 1.3em; line-height: 16px; background: #333; color: white; padding: 15px; border: 1px dotted #CD2300; overflow: auto; text-shadow: 1px 1px 0 #111;
+  span { color: #F7B4A8; }
+}
+
+form { margin: 0 22px 22px 22px; border: 1px dotted #CD2300; padding: 15px;
+  div { margin-bottom: 10px; }
+  label { display: block; font-size: 1.3em; margin-bottom: 5px; cursor: pointer; }
+  input, textarea { width: 510px; padding: 5px; }
+  p { float: left; padding-right: 10px; margin-bottom: 0; color: #555; font-size: 1.3em;
+    input { width: auto; }
+  }
+  .clear { clear: both; margin: 0; }
+  .submit { text-align: right; margin-bottom: 0;
+    input { width: auto; cursor: pointer; }
+  }
+}
+
+
+.ketchup-error-container-alt { margin: 10px; width: 510px; display: none; }
+.ketchup-error-container-alt li {
+  background: #F04D5B;
+  color: black;
+  padding: 3px 10px 3px 10px;
+  font-size: 11px;
+  margin-bottom: 3px;
+  boder-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
