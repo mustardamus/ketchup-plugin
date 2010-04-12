@@ -36,7 +36,7 @@ $.fn.ketchup.validation('max', function(element, value, max) {
 });
 
 $.fn.ketchup.validation('range', function(element, value, min, max) {
-  if(value.length > 0 && parseInt(value) >= min && parseInt(value) <= max) return true;
+  if(value.length == 0 || (parseInt(value) >= min && parseInt(value) <= max)) return true;
   else return false;
 });
 
