@@ -99,7 +99,7 @@
     var openBrackets = 0;
     
     for(var i = 0; i < valStr.length; i++) {
-      switch(valStr[i]) {
+      switch(valStr.charAt(i)) {
         case ',':
           if(openBrackets) {
             tempStr += ',';
@@ -121,7 +121,7 @@
           }
           break;
         default:
-          tempStr += valStr[i];
+          tempStr += valStr.charAt(i);
       }
     }
 
