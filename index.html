@@ -130,6 +130,17 @@
     &lt;label for="ex1_about"&gt;About you&lt;/label&gt;
     &lt;textarea id="ex1_about" rows="1" <span>class="validate(rangelength(10,140))"</span>&gt;&lt;/textarea&gt;
   &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for &quot;ex1_age&quot;&gt;Your age&lt;/label&gt;
+    &lt;select name=&quot;ex1_age&quot; <span>class=&quot;validate(notvalue(Select age))&quot;</span>&gt;
+      &lt;option&gt;Select age&lt;/option&gt;
+      &lt;option&gt;0-20&lt;/option&gt;
+      &lt;option&gt;21-40&lt;/option&gt;
+      &lt;option&gt;41-60&lt;/option&gt;
+      &lt;option&gt;61-80&lt;/option&gt;
+      &lt;option&gt;81-..&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
   &lt;div class="submit"&gt;
     &lt;input type="submit" value="(Try to) Submit" /&gt;
   &lt;/div&gt;
@@ -168,6 +179,17 @@
         <div>
           <label for="ex1_about">About you</label>
           <textarea id="ex1_about" rows="1" class="validate(rangelength(10,140))"></textarea>
+        </div>
+        <div>
+          <label for "ex1_age">Your age</label>
+          <select name="ex1_age" class="validate(notvalue(Select age))">
+            <option>Select age</option>
+            <option>0-20</option>
+            <option>21-40</option>
+            <option>41-60</option>
+            <option>61-80</option>
+            <option>81-..</option>
+          </select>
         </div>
         <div class="submit">
           <input type="submit" value="(Try to) Submit" />
@@ -230,6 +252,9 @@
       
       <h3>rangeslect(min, max) <span>validate(rangeselect(2,6))</span></h3>
       <p>Allow between <code>min</code> and <code>max</code> selected checkboxes. Apply this validation only to one checkbox in the group.</p>
+      
+      <h3>notvalue(val) <span>notvalue(some text)</span></h3>
+      <p>Value in field must be different than <code>val</code>. You can apply this on select field.</p>
       
       <h2>Combining Validations</h2>
       <p>You can combine validations by comma like this:</p>

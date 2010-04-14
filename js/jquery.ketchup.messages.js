@@ -15,5 +15,6 @@ $.fn.ketchup.messages = {
   'date':         'Must be a valid date.',
   'minselect':    'Select at least $arg1 checkboxes.',
   'maxselect':    'Select not more than $arg1 checkboxes.',
-  'rangeselect':  'Select between $arg1 and $arg2 checkboxes.'
+  'rangeselect':  'Select between $arg1 and $arg2 checkboxes.',
+  'notvalue':     'Select different value.',
 };

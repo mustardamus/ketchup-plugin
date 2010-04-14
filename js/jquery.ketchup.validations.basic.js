@@ -115,3 +115,9 @@ $.fn.ketchup.validation('rangeselect', function(element, value, min, max) {
   if(checked.length >= min && checked.length <= max) return true;
   else return false;
 });
+
+$.fn.ketchup.validation('notvalue', function(element, value, notvalue) {
+  if(value.length == 0 || value == notvalue) return false;
+  else return true;
+});
+
