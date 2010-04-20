@@ -23,12 +23,11 @@
   
   function squeeze(form) {
     var fields = fieldsToValidate(form);
-    
-    for(var i = 0; i < fields.length; i++) {
+    var fl = fields.length;
+    for(var i = 0; i < fl; i++) {
       bindField(fields[i]);
     }
-    
-    form.submit(function() {
+    var submit_function = function() {
       var tasty = true;
       
       for(var i = 0; i < fields.length; i++) {
@@ -36,13 +35,15 @@
       }
       
       if(!tasty) return false;
-    });
+    };
+    form.unbind('submit', submit_function);
+    form.bind('submit', submit_function);
   }
   
   
   function fieldsToValidate(form) {
     var tags = 'input textarea select'.split(' ');
-    var fields = [];
+    var fields = new Array();
     
     for(var i = 0; i < tags.length; i++) {
       form.find(tags[i]+'['+options.validationAttribute+'*='+validate+']').each(function() {
@@ -54,19 +55,17 @@
   }
   
   
+  
   function bindField(field) {
     var validations = extractValidations(field);
+    var sibs = field.siblings('.ketchup-error-container');
+    sibs.remove();
     var errorContainer = field.after(options.errorContainer.clone()).next();
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
-    
-    $(window).resize(function() {
-      options.initialPositionContainer(errorContainer, field);
-    }).trigger('resize');
-    
-    field.blur(function() {
+    var bind_function = function() {
       var errList = buildErrorList(validations, field);
-      
+
       if(errList.length) {
         if(!visibleContainer) {
           contOl.html(errList);
@@ -75,18 +74,27 @@
         } else {
           contOl.html(errList);
         }
-        
+
         options.positionContainer(errorContainer, field);
       } else {
         options.hideContainer(errorContainer);
         visibleContainer = false;
       }
-    });
-    
+    };
+
+    var resize_function = function() {
+      options.initialPositionContainer(errorContainer, field);
+    };
+    $(window).unbind('resize'); // I really don't know, how to make this in a smart way (ie. removing only ketchup events...)
+    $(window).bind('resize', resize_function).trigger('resize');
+    field.unbind('blur');
+    field.bind('blur', bind_function);
     if(field.attr('type') == 'checkbox') {
-      field.change(function() { //chrome dont fire blur on checkboxes, but change
+      var cb = function() { //chrome dont fire blur on checkboxes, but change
         $(this).blur(); //so just simulate a blur
-      });
+      };
+      field.unbind('change', cb)
+      field.bind('change', cb);
     }
   }
   
