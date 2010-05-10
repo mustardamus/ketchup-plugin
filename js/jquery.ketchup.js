@@ -35,7 +35,13 @@
         if(buildErrorList(extractValidations(fields[i].blur()), fields[i]).length) tasty = false;
       }
       
-      if(!tasty) return false;
+      if(!tasty){
+	      return $.fn.ketchup.callback(form,tasty);
+	  }
+	  else{
+	  	  return $.fn.ketchup.callback(form,tasty); 	
+	  }	
+    
     });
   }
   
@@ -243,11 +249,16 @@
     $.fn.ketchup.validations[name] = func;
   };
   
+  $.fn.ketchup.callback = function(form,success){
+  	return success;
+  };
+
   
   $.fn.ketchup.messages = {};
   $.fn.ketchup.validations = [];
   var options;
 
+  
   $.fn.ketchup.defaults = {
     validationAttribute:      'class',
     errorContainer:           errorContainer,
@@ -257,3 +268,4 @@
     hideContainer:            hideContainer
   };
 })(jQuery);
+
