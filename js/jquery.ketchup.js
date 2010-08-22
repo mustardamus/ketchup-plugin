@@ -156,7 +156,7 @@
       var arr = validation.substring(validation.indexOf('(') + 1, validation.length - 1).split(',');
       var tempStr = '';
       
-      for(var i = 0; i < arr.length; i++) {
+      for(var i = 0; i < arr.length; i++){
         var single = trim(arr[i]);
         
         if(parseInt(single)) {
@@ -179,7 +179,7 @@
     if(args) {
       var parArr = params.split(',');
       
-      for(var i = 1; i < parArr.length; i++) {
+      for(var i = 1; i < parArr.length; i++){
         message = message.replace('$arg'+i, parArr[i]);
       }
     }
@@ -191,7 +191,7 @@
   function buildErrorList(validations, field) {
     var list = '';
     
-    for(var i = 0; i < validations.length; i++) {
+    for(var i = 0; i < validations.length; i++){
       var funcName = getFunctionName(validations[i]);
       var params = buildParams(validations[i]);
       

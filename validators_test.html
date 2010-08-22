@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <title>Ketchup Plugin</title>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.messages.js"></script>
+    <script type="text/javascript" src="js/jquery.ketchup.validations.basic.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body>
+    <p>
+      <br>
+      <br>
+      <br>
+    </p>
+    <form id="example1" >
+      <select name="select_test" class="validate(required, notvalue(--select--))">
+        <option>--select--</option>
+        <option value="1">one</option>
+        <option value="2">two</option>
+      </select>
+      <br><br>
+      <input type="submit">
+    </form>
+    
+    <form id="example3" >
+      <select name="select_test" class="validate(required)">
+        <option value=''>--select--</option>
+        <option value="1">one</option>
+        <option value="2">two</option>
+      </select>
+      <br><br>
+      <input type="submit">
+    </form>
+  </body>
+</html>
