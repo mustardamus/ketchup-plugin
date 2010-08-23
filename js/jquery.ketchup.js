@@ -34,7 +34,14 @@
         if(buildErrorList(extractValidations(fields[i].blur()), fields[i]).length) tasty = false;
       }
       
-      if(!tasty) return false;
+      if(!tasty){
+        //get the top offset of the target anchor
+        var target_offset = $('div.ketchup-error-container:visible:first').offset();
+        var target_top = target_offset.top - 30;
+        //goto that anchor by setting the body scroll top to anchor top
+        $('html, body').animate({scrollTop:target_top}, 500);
+        return false;
+      };
     };
     form.unbind('submit', submit_function);
     form.bind('submit', submit_function);
@@ -59,13 +66,12 @@
   function bindField(field) {
     var validations = extractValidations(field);
     var sibs = field.siblings('.ketchup-error-container');
-    sibs.remove();
-    var errorContainer = field.after(options.errorContainer.clone()).next();
+    //sibs.remove();
+    var errorContainer = field.after(options.errorContainer).next();
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
     var bind_function = function() {
       var errList = buildErrorList(validations, field);
-
       if(errList.length) {
         if(!visibleContainer) {
           contOl.html(errList);
@@ -93,7 +99,7 @@
       var cb = function() { //chrome dont fire blur on checkboxes, but change
         $(this).blur(); //so just simulate a blur
       };
-      field.unbind('change', cb)
+      field.unbind('change', cb);
       field.bind('change', cb);
     }
   }
@@ -204,10 +210,7 @@
   }
   
   
-  var errorContainer = $('<div>', {
-    'class':  'ketchup-error-container',
-    html:     '<ol></ol><span></span>'
-  });
+  var errorContainer = '<div class="ketchup-error-container"><ol></ol><span></span></div>';
   
   
   var initialPositionContainer = function(errorContainer, field) {
