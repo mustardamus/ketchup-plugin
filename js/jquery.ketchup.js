@@ -65,8 +65,10 @@
   
   function bindField(field) {
     var validations = extractValidations(field);
-    var sibs = field.siblings('.ketchup-error-container');
-    //sibs.remove();
+    var existingContainer = field.next();
+    if(existingContainer.hasClass('ketchup-error-container'))
+      existingContainer.remove();
+    
     var errorContainer = field.after(options.errorContainer).next();
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
@@ -91,9 +93,9 @@
     var resize_function = function() {
       options.initialPositionContainer(errorContainer, field);
     };
-    $(window).unbind('resize'); // I really don't know, how to make this in a smart way (ie. removing only ketchup events...)
+    $(window).unbind('resize', resize_function); 
     $(window).bind('resize', resize_function).trigger('resize');
-    field.unbind('blur');
+    field.unbind('blur', bind_function);
     field.bind('blur', bind_function);
     if(field.attr('type') == 'checkbox') {
       var cb = function() { //chrome dont fire blur on checkboxes, but change

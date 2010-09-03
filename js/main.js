@@ -31,4 +31,8 @@ $(document).ready(function() {
   if($('#example4').length) {
     $('#example4').ketchup();
   }
+  
+  if($('#example4_init').length) {
+    $('#example4_init').click(function(){ $('#example4').ketchup(); return false; });
+  }
 });
