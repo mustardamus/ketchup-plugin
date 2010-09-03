@@ -20,20 +20,26 @@
 (function($) {
   var validate = 'validate';
   
+  var function_stack = new Array();
   
   function squeeze(form) {
     var fields = fieldsToValidate(form);
     var fl = fields.length;
     for(var i = 0; i < fl; i++) {
       bindField(fields[i]);
-    }
+    };
+    var form_id = form.attr('id');
+    if(!function_stack[form_id])
+      function_stack[form_id] = new Array();
+    if(function_stack[form_id]['submit_function'])
+      form.unbind('submit', function_stack[form_id]['submit_function']);
     var submit_function = function() {
       var tasty = true;
-      
+    
       for(var i = 0; i < fields.length; i++) {
         if(buildErrorList(extractValidations(fields[i].blur()), fields[i]).length) tasty = false;
-      }
-      
+      };
+    
       if(!tasty){
         //get the top offset of the target anchor
         var target_offset = $('div.ketchup-error-container:visible:first').offset();
@@ -43,8 +49,8 @@
         return false;
       };
     };
-    form.unbind('submit', submit_function);
-    form.bind('submit', submit_function);
+    function_stack[form_id]['submit_function'] = submit_function;
+    form.bind('submit', function_stack[form_id]['submit_function']);
   }
   
   
@@ -64,6 +70,10 @@
   
   
   function bindField(field) {
+    var form = field.parents('form');
+    var form_id = form.attr('id')+'_'+form.attr('action');
+    var field_id = form_id+'_'+field.attr('id')+'_'+field.attr('name');
+    
     var validations = extractValidations(field);
     var existingContainer = field.next();
     if(existingContainer.hasClass('ketchup-error-container'))
@@ -72,6 +82,13 @@
     var errorContainer = field.after(options.errorContainer).next();
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
+    if(!function_stack[form_id])
+      function_stack[form_id] = new Array();
+    if(!function_stack[form_id][field_id])
+      function_stack[form_id][field_id] = new Array();
+    if(function_stack[form_id][field_id]['bind_function'])
+      field.unbind('blur', function_stack[form_id][field_id]['bind_function']);
+      
     var bind_function = function() {
       var errList = buildErrorList(validations, field);
       if(errList.length) {
@@ -89,14 +106,19 @@
         visibleContainer = false;
       }
     };
-
+    function_stack[form_id][field_id]['bind_function'] = bind_function;
+    
+    if(function_stack[form_id][field_id]['resize_function'])
+      $(window).unbind('resize', function_stack[form_id][field_id]['resize_function']);
+    
     var resize_function = function() {
       options.initialPositionContainer(errorContainer, field);
     };
-    $(window).unbind('resize', resize_function); 
-    $(window).bind('resize', resize_function).trigger('resize');
-    field.unbind('blur', bind_function);
-    field.bind('blur', bind_function);
+    
+    function_stack[form_id][field_id]['resize_function'] = resize_function;
+    $(window).bind('resize', function_stack[form_id][field_id]['resize_function']).trigger('resize');
+    
+    field.bind('blur', function_stack[form_id][field_id]['bind_function']);
     if(field.attr('type') == 'checkbox') {
       var cb = function() { //chrome dont fire blur on checkboxes, but change
         $(this).blur(); //so just simulate a blur

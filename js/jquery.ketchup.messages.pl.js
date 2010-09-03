@@ -1,0 +1,20 @@
+$.fn.ketchup.messages = {
+  'required':     'Pole obowiązkowe.',
+  'minlength':    'Pole to musi się składać z minimum $arg1 znaków.',
+  'maxlength':    'Pole to może mieć maksymalnie $arg1 znakół.',
+  'rangelength':  'Minimalna długość pola to $arg1, maksymalna $arg2 znaków.',
+  'min':          'Minimalna wartość to $arg1.',
+  'max':          'Maksymalna wartość to $arg1.',
+  'range':        'Wartość musi zawierać się pomiędzy $arg1 a $arg2.',
+  'number':       'Musi składać się z cyfr.',
+  'digits':       'Musi składać się z samych cyfr.',
+  'email':        'Musi być poprawnym adresem email.',
+  'url':          'Musi być poprawnym adresem URL.',
+  'username':     'Musi byc poprawną nazwą użytkownika (litery A-Z, cyfry, znak _)',
+  'match':        'Pole musi zgadzać się z polem wyżej.',
+  'date':         'Musi być poprawną datą',
+  'minselect':    'Wybierz przynajmniej po $arg1 polu z każdej sekcji',
+  'maxselect':    'Wybierz więcej niż $arg1 pól.',
+  'rangeselect':  'Wybierz pomiędzy $arg1 a $arg2 polami.',
+  'notvalue':     'Wybierz inną wartość.'
+};
