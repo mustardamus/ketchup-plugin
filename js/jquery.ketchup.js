@@ -33,6 +33,7 @@
       function_stack[form_id] = new Array();
     if(function_stack[form_id]['submit_function'])
       form.unbind('submit', function_stack[form_id]['submit_function']);
+    
     var submit_function = function() {
       var tasty = true;
     
@@ -46,8 +47,10 @@
         var target_top = target_offset.top - 30;
         //goto that anchor by setting the body scroll top to anchor top
         $('html, body').animate({scrollTop:target_top}, 500);
-        return false;
-      };
+        return $.fn.ketchup.callback(form,tasty);
+      }else{
+        return $.fn.ketchup.callback(form,tasty); 	
+      }
     };
     function_stack[form_id]['submit_function'] = submit_function;
     form.bind('submit', function_stack[form_id]['submit_function']);
@@ -278,11 +281,16 @@
     $.fn.ketchup.validations[name] = func;
   };
   
+  $.fn.ketchup.callback = function(form,success){
+  	return success;
+  };
+
   
   $.fn.ketchup.messages = {};
   $.fn.ketchup.validations = [];
   var options;
 
+  
   $.fn.ketchup.defaults = {
     validationAttribute:      'class',
     errorContainer:           errorContainer,
@@ -292,3 +300,4 @@
     hideContainer:            hideContainer
   };
 })(jQuery);
+
