@@ -201,23 +201,47 @@
     html:     '<ol></ol><span></span>'
   });
   
-  
+
   var initialPositionContainer = function(errorContainer, field) {
     var fOffset = field.offset();
+   var left = fOffset.left;
+   var top = fOffset.top;
+
+   // check if there's a 'relative' parent
+   field.parents().each(function(){
+       if ($(this).css('position')=='relative')
+       {
+           fOffset = $(this).offset();
+
+           left -= fOffset.left;
+           top -= fOffset.top;
+
+           return false
+
+       }
+
+   });
+
+   // back it up for later
+   field.data('offset',{left:left,top:top});
 
     errorContainer.css({
-      left: fOffset.left + field.width() - 10,
-      top: fOffset.top - errorContainer.height()
+      left: left + field.width() - 10,
+      top: top
     });
   };
-  
-  
+
+
   var positionContainer = function(errorContainer, field) {
+   // re-position the error, the height is correct here.
+   errorContainer.css({top:field.data('offset').top - errorContainer.height() + field.innerHeight()});
+
+   // animate
     errorContainer.animate({
-      top: field.offset().top - errorContainer.height()
+      top: field.data('offset').top - errorContainer.height()
     });
   };
-  
+
   
   var showContainer = function(errorContainer) {
     errorContainer.fadeIn();
