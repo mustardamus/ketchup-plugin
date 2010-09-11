@@ -167,7 +167,7 @@
   }
   
   
-  function formatMessage(message, params) {
+  function formatMessage(message, params, field) {
     var args = message.split('$arg').length - 1;
     
     if(args) {
@@ -176,6 +176,14 @@
       for(var i = 1; i < parArr.length; i++) {
         message = message.replace('$arg'+i, parArr[i]);
       }
+    }
+    
+    var regex = /\$attr\(([a-z \|]+)\)/;
+    while (message.match(regex)) {
+      message = message.replace(regex, function(full, attr){
+        var split = attr.split('|');
+        return field.attr(split[0]) || split[1];
+      });
     }
     
     return message;
@@ -190,7 +198,7 @@
       var params = buildParams(validations[i]);
       
       if(!eval('$.fn.ketchup.validations["'+funcName+'"](field, field.val()'+params+')')) {
-        list += '<li>'+formatMessage($.fn.ketchup.messages[funcName], params)+'</li>';
+        list += '<li>'+formatMessage($.fn.ketchup.messages[funcName], params, field)+'</li>';
       } 
     }
     

@@ -45,30 +45,18 @@
   &lt;/div&gt;
 &lt;/form&gt;</code></pre>
 
-      <h2>Without arguments - Set the error message</h2>
-      <p>
-        First we need to set the error message that gets displayed in case validation do not pass. Either extend the file <code>jquery.ketchup.messages.js</code> or set your own messages in your own script file:
-      </p>
-      <pre><code>$.fn.ketchup.messages = {
-  'tomato': 'I only like tomato!'
-}</code></pre>
 
-      <h2>Without arguments - Write the validation function</h2>
-      <p>
-        Next we extend Ketchup with our validation function that simply checks for the word '<i>tomato</i>'. Validation functions must return <code>true</code> or <code>false</code>. The first two arguments in the validation function must be the <code>field</code> element and the <code>value</code>. You can use these objects in your validation like so:
-      </p>
-      <pre><code>$.fn.ketchup.validation('tomato', function(element, value) {
-  if(value == 'tomato') return true;
-  else return false;
-});</code></pre>
-
-      <h2>Without arguments - Activate Ketchup</h2>
-      <p>
-        Now just activate Ketchup like you normally would do. We use the default settings in this example:
-      </p>
-      <pre><code>$(document).ready(function() {
-  $('#example3').ketchup();
-});</code></pre>
+      <h2>Without arguments</h2>
+      <p>We extend Ketchup with the <code>add</code> Method.  The first argument is the name of the validation, the second is an object literal containing the error message to display and the validation function. The <code>test</code> function simply checks for the word '<i>tomato</i>'. Validation functions must return <code>true</code> or <code>false</code>. The first two arguments in the validation function must be the <code>field</code> element and the <code>value</code>.</p>
+      
+      <pre><code>$.fn.ketchup.add('tomato', {
+    message: 'I only like tomato!',
+    test: function(element, value) {
+      if(value == 'tomato') return true;
+      else return false;
+    }
+  });</code></pre>
+      
       
       <h2>Without arguments - Outcome</h2>
       <form action="validation.html" id="example3">
@@ -101,25 +89,25 @@
   &lt;/div&gt;
 &lt;/form&gt;</code></pre>
 
-      <h2>With arguments - Set the error message</h2>
+      <h2>With arguments</h2>
       <p>
         You can format the output message with place holders for the arguments ($arg1, $arg2, $arg3...) you passing into your validation function. In our example the two words we want to check for:
       </p>
-      <pre><code>$.fn.ketchup.messages = {
-  'either': 'Must be either <span>$arg1</span> or <span>$arg2</span>.'
-}</code></pre>
+      
+<pre><code>$.fn.ketchup.add('either', {
+    message: 'Must be either <span>$arg1</span> or <span>$arg2</span>.'
+    test: function(element, value, <span>word1</span>, <span>word2</span>) {
+      var valueL = value.toLowerCase();
 
-      <h2>With arguments - Write the validation function</h2>
+      if(valueL == <span>word1</span>.toLowerCase() || valueL == <span>word2</span>.toLowerCase()) return true;
+      else return false;
+    }
+  });</code></pre>      
+      
       <p>
         Now to the interesting part. You remember that the first two arguments for a validation function must be <code>field</code> and <code>value</code>? Every argument after these belongs to you, or better, to your validation function you set in your markup. We want to check for two words, two arguments:
       </p>
-      <pre><code>$.fn.ketchup.validation('either', function(element, value, <span>word1</span>, <span>word2</span>) {
-  var valueL = value.toLowerCase();
-
-  if(valueL == <span>word1</span>.toLowerCase() || valueL == <span>word2</span>.toLowerCase()) return true;
-  else return false;
-});</code></pre>
-
+      
       <h2>With arguments - Activate Ketchup</h2>
       <p>
         Activate Ketchup on the form and voilà:

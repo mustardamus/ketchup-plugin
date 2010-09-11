@@ -1,5 +1,5 @@
 $.fn.ketchup.add('required', {
-  message: 'This field is required.',
+  message: 'This field is required. Please enter $attr(title|a value).',
   test: function(element, value) {
     if(element.attr('type') == 'checkbox') {
       if(element.attr('checked') == true) return true;
