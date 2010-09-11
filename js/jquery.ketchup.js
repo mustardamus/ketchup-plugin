@@ -56,7 +56,9 @@
   
   function bindField(field) {
     var validations = extractValidations(field);
-    var errorContainer = field.after(options.errorContainer.clone()).next();
+    var errorContainer = (options.appendToBody) ? 
+      options.errorContainer.clone().appendTo('body'):
+      field.after(options.errorContainer.clone()).next();
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
     
@@ -204,26 +206,24 @@
 
   var initialPositionContainer = function(errorContainer, field) {
     var fOffset = field.offset();
-   var left = fOffset.left;
-   var top = fOffset.top;
+    var left = fOffset.left;
+    var top = fOffset.top;
 
-   // check if there's a 'relative' parent
-   field.parents().each(function(){
-       if ($(this).css('position')=='relative')
-       {
-           fOffset = $(this).offset();
+    // check if there's a 'relative' parent
+    if(!options.appendToBody){
+      field.parents().each(function(){
+        var position = $(this).css('position');
+        if (position == 'relative' || position == 'absolute') {
+          fOffset = $(this).offset();
+          left -= fOffset.left;
+          top -= fOffset.top;
+          return false
+        }
+     }); 
+    }
 
-           left -= fOffset.left;
-           top -= fOffset.top;
-
-           return false
-
-       }
-
-   });
-
-   // back it up for later
-   field.data('offset',{left:left,top:top});
+    // back it up for later
+    field.data('offset',{left:left,top:top});
 
     errorContainer.css({
       left: left + field.width() - 10,
@@ -255,7 +255,6 @@
   
   $.fn.ketchup = function(opt) {
     options = $.extend({}, $.fn.ketchup.defaults, opt);
-    
     return this.each(function() {
       squeeze($(this));
     });
@@ -278,6 +277,7 @@
     initialPositionContainer: initialPositionContainer,
     positionContainer:        positionContainer,
     showContainer:            showContainer,
-    hideContainer:            hideContainer
+    hideContainer:            hideContainer,
+    appendToBody:             false
   };
 })(jQuery);
