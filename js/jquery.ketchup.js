@@ -266,6 +266,16 @@
     $.fn.ketchup.validations[name] = func;
   };
   
+  $.fn.ketchup.add = function(name, obj){
+    $.fn.ketchup.validation(name, obj.test);
+    $.fn.ketchup.messages[name] = obj.message;
+  };
+  
+  $.fn.ketchup.addMultiple = function(validations){
+    $.each(validations, function(index, validation){
+      $.fn.ketchup.add(validation[0], validation[1]);
+    });
+  }
   
   $.fn.ketchup.messages = {};
   $.fn.ketchup.validations = [];
