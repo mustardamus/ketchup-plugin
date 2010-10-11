@@ -2,6 +2,7 @@
   display: none;
   position: absolute;
   width: auto;
+  white-space: nowrap;
 }
 
 .ketchup-error-container ol {
