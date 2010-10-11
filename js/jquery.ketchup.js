@@ -56,7 +56,7 @@
   
   function bindField(field) {
     var validations = extractValidations(field);
-    var errorContainer = field.after(options.errorContainer.clone()).next();
+    var errorContainer = options.errorContainer.clone().appendTo('body');
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
     
