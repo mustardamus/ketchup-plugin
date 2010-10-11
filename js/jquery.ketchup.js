@@ -57,6 +57,8 @@
   function bindField(field) {
     var validations = extractValidations(field);
     var errorContainer = options.errorContainer.clone().appendTo('body');
+    // helps identify which one is in the totally wrong position
+    errorContainer.addClass(field[0].name);
     var contOl = errorContainer.find('ol');
     var visibleContainer = false;
     
