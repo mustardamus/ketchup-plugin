@@ -60,7 +60,6 @@
     // helps identify which one is in the totally wrong position
     errorContainer.addClass(field[0].name);
     var contOl = errorContainer.find('ol');
-    var visibleContainer = false;
     
     $(window).resize(function() {
       options.initialPositionContainer(errorContainer, field);
@@ -70,10 +69,9 @@
       var errList = buildErrorList(validations, field);
       
       if(errList.length) {
-        if(!visibleContainer) {
+        if(!errorContainer.is(':visible')) {
           contOl.html(errList);
           options.showContainer(errorContainer);
-          visibleContainer = true;
         } else {
           contOl.html(errList);
         }
@@ -81,7 +79,6 @@
         options.positionContainer(errorContainer, field);
       } else {
         options.hideContainer(errorContainer);
-        visibleContainer = false;
       }
     });
     
