@@ -4,10 +4,10 @@
       attribute          : 'class',
       validateIndicator  : 'validate',
       eventIndicator     : 'on',
-      validateEvent      : 'blur',
+      validateEvents     : 'blur',
       dataNameString     : 'ketchup-validation-string',
       dataNameValidations: 'ketchup-validations',
-      dataNameEvents     : 'ketchup-event'
+      dataNameEvents     : 'ketchup-events'
     },
     validations: {},
     
@@ -55,7 +55,7 @@
           
           if(typeof fields[s] == 'string') {
             valString = fields[s];
-            events    = options.validateEvent;
+            events    = options.validateEvents;
           } else {
             valString = fields[s][0];
             events    = fields[s][1];
@@ -90,7 +90,7 @@
           
           el.data(
             options.dataNameEvents,
-            events ? events : options.validateEvent
+            events ? events : options.validateEvents
           );
         }
         
