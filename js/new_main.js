@@ -30,9 +30,10 @@ $.ketchup
 $(document).ready(function() {
   $('form').ketchup({
     indicator: 'validate',
-    attribute: 'rel'
+    attribute: 'rel'//,
+    //validateElements: '.validate'
   //}, {
-  //  '.validate': ['required,min(5),words(one,two)', 'click'],
+  //  'input': ['required,min(5),words(one,two)', 'click'],
   //  'select': 'min(3)'                     //wenn nicht über attr setzen
   });
 });

@@ -5,11 +5,13 @@
       validateIndicator  : 'validate',
       eventIndicator     : 'on',
       validateEvents     : 'blur',
+      validateElements   : ['input', 'textarea'],
       dataNameString     : 'ketchup-validation-string',
       dataNameValidations: 'ketchup-validations',
-      dataNameEvents     : 'ketchup-events'
+      dataNameEvents     : 'ketchup-events',
+      dataNameElements   : 'ketchup-validation-elements'
     },
-    validations: {},
+    validations : {},
     
     
     validation: function() {
@@ -42,60 +44,72 @@
     
     
     init: function(form, options, fields) {
-      var self = this;
-      
+      var self             = this,
+          validateElements = [],
+          opt              = options,
+          oValInd          = opt.validateIndicator,
+          oValEvents       = opt.validateEvents,
+          oNameString      = opt.dataNameString,
+          oNameEvents      = opt.dataNameEvents,
+          oAttr            = opt.attribute;
+
       if(!fields) {
-        //[input,textarea,select] as default .each
-        fields = form.find('input[' + options.attribute + '*=' + options.validateIndicator + ']');
-      } else {
-        var fieldsTemp = [];
+        var oValEls = options.validateElements;
+            oValEls = typeof oValEls == 'string' ? [oValEls] : oValEls;
         
+        for(i = 0; i < oValEls.length; i++) {
+          var els = form.find(oValEls[i] + '[' + oAttr + '*=' + oValInd + ']');
+          
+          els.each(function() {
+            var el     = $(this),
+                attr   = el.attr(oAttr),
+                events = self.extractEvents(attr, options.eventIndicator);
+
+            el.data(oNameString, attr).data(oNameEvents, events ? events : oValEvents);
+          });
+          
+          validateElements.push(els.get());
+        }
+      } else {        
         for(s in fields) {
           var valString, events;
           
           if(typeof fields[s] == 'string') {
             valString = fields[s];
-            events    = options.validateEvents;
+            events    = oValEvents;
           } else {
             valString = fields[s][0];
             events    = fields[s][1];
           }
           
           var els = form.find(s)
-                        .data(options.dataNameString, options.validateIndicator + '(' + valString + ')')
-                        .data(options.dataNameEvents, events);
+                        .data(oNameString, oValInd + '(' + valString + ')')
+                        .data(oNameEvents, events);
           
-          els.each(function() {
-            fieldsTemp.push(this);
-          });
+          validateElements.push(els.get());
         }
-        
-        fields = $(fieldsTemp);
       }
+
+      var valEls = this.buildValidateElements(validateElements);
       
-      fields.each(function() {
+      form.data(options.dataNameElements, valEls);
+      this.bindFormSubmit(form);
+      
+      valEls.each(function() {
         var el = $(this);
-        
-        if(!el.data(options.dataNameString)) {
-          el.data(options.dataNameString, el.attr(options.attribute));
-        }
         
         el.data(
           options.dataNameValidations,
-          self.extractValidations(el.data(options.dataNameString), options.validateIndicator)
+          self.extractValidations(el.data(oNameString), options.validateIndicator)
         );
 
-        if(!el.data(options.dataNameEvents)) {
-          var events = self.extractEvents(el.attr(options.attribute), options.eventIndicator);
-          
-          el.data(
-            options.dataNameEvents,
-            events ? events : options.validateEvents
-          );
-        }
-        
         self.bindValidationEvent(el);
       });
+    },
+    
+    
+    bindFormSubmit: function(form) {
+      console.log(form.data());
     },
     
     
@@ -107,7 +121,7 @@
     extractValidations: function(toExtract, indicator) { //I still don't know regex
       var fullString   = toExtract.substr(toExtract.indexOf(indicator) + indicator.length + 1),
           tempStr      = '',
-          tempArr      = [];
+          tempArr      = [],
           openBrackets = 0,
           validations  = [];
       
@@ -182,6 +196,21 @@
       }
 
       return events;
+    },
+    
+    
+    buildValidateElements: function(validateElements) {
+      var returnArr = [];
+      
+      for(i = 0; i < validateElements.length; i++) {
+        for(e = 0; e <= validateElements[i].length; e++) {
+          if(validateElements[i][e]) {
+            returnArr.push(validateElements[i][e]);
+          }
+        }
+      }
+      
+      return $(returnArr);
     }
   };
   
