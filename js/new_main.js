@@ -17,7 +17,7 @@ $.ketchup
 })
 
 .validation('words', function(form, element, value, word1, word2) {
-  if(value.indexOf(word1) != -1 && value.indexOf(word2) != -1) {
+  if(value == word1 || value == word2) {
     return true;
   } else {
     return false;

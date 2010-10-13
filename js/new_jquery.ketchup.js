@@ -93,7 +93,7 @@
       var valEls = this.buildValidateElements(validateElements);
       
       form.data(options.dataNameElements, valEls);
-      this.bindFormSubmit(form);
+      this.bindFormSubmit(form, options);
       
       valEls.each(function() {
         var el = $(this);
@@ -108,8 +108,30 @@
     },
     
     
-    bindFormSubmit: function(form) {
-      console.log(form.data());
+    bindFormSubmit: function(form, options) {
+      form.submit(function() {
+        var tasty = true;
+        
+        form.data(options.dataNameElements).each(function() {
+          var el   = $(this),
+              vals = el.data(options.dataNameValidations),
+              args = [form, el, el.val()];
+          
+          for(i = 0; i < vals.length; i ++) {
+            var argsTemp = args;
+            
+            for(a = 0; a < vals[i].arguments.length; a++) {
+              argsTemp.push(vals[i].arguments[a]);
+            }
+            
+            if(!vals[i].func.apply(null, argsTemp)) {
+              tasty = false;
+            }
+          }
+        });
+        
+        return tasty;
+      });
     },
     
     
