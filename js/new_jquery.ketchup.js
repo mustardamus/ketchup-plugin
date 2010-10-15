@@ -145,17 +145,17 @@
         var tasty     = self.validateElement(el, form, options),
             container = el.data(options.dataNameContainer);
         
-	      if(tasty != true) {
-	        if(!container) {
-	          container = options.createErrorContainer(form, el);
-	          el.data(options.dataNameContainer, container);
-	        }
-	        
-	        options.addErrorMessages(form, el, container, tasty);	        
-	        options.showErrorContainer(form, el, container);
-	      } else {
-	        options.hideErrorContainer(form, el, container);
-	      }
+        if(tasty != true) {
+          if(!container) {
+            container = options.createErrorContainer(form, el);
+            el.data(options.dataNameContainer, container);
+          }
+  
+          options.addErrorMessages(form, el, container, tasty);	        
+          options.showErrorContainer(form, el, container);
+        } else {
+          options.hideErrorContainer(form, el, container);
+        }
       });
     },
     
