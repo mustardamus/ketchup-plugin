@@ -9,7 +9,7 @@ $.ketchup
 })
 
 .validation('min', 'Can not be lower than {arg1}', function(form, element, value, min) {
-  if(value.length > min) {
+  if(value.length >= min) {
     return true;
   } else {
     return false;
@@ -24,7 +24,23 @@ $.ketchup
   }
 })
 
-.message('words', 'Must be either {arg1} or {arg2}.');
+.message('words', 'Must be either {arg1} or {arg2}.')
+
+//.createErrorContainer(function() {
+//  console.log('overwritten');
+//});
+
+//.addErrorMessage(function(form, el, container, message) {
+//  container.html(message)
+//})
+
+//.showErrorContainer(function(form, el, container) {
+//  container.fadeIn();
+//})
+
+//.hideErrorContainer(function(form, el, container) {
+//  container.fadeOut();
+//})
 
 
 $(document).ready(function() {

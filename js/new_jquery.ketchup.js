@@ -1,15 +1,20 @@
 (function($) {
   $.ketchup = {
     defaults: {
-      attribute          : 'class',
-      validateIndicator  : 'validate',
-      eventIndicator     : 'on',
-      validateEvents     : 'blur',
-      validateElements   : ['input', 'textarea'],
-      dataNameString     : 'ketchup-validation-string',
-      dataNameValidations: 'ketchup-validations',
-      dataNameEvents     : 'ketchup-events',
-      dataNameElements   : 'ketchup-validation-elements'
+      attribute           : 'class',
+      validateIndicator   : 'validate',
+      eventIndicator      : 'on',
+      validateEvents      : 'blur',
+      validateElements    : ['input', 'textarea'],
+      dataNameString      : 'ketchup-validation-string',
+      dataNameValidations : 'ketchup-validations',
+      dataNameEvents      : 'ketchup-events',
+      dataNameElements    : 'ketchup-validation-elements',
+      dataNameContainer   : 'ketchup-container',
+      createErrorContainer: null,
+      showErrorContainer  : null,
+      hideErrorContainer  : null,
+      addErrorMessages    : null,
     },
     validations : {},
     
@@ -52,6 +57,11 @@
           oNameString      = opt.dataNameString,
           oNameEvents      = opt.dataNameEvents,
           oAttr            = opt.attribute;
+      
+      if(!options.createErrorContainer) options.createErrorContainer = this.createErrorContainer;
+      if(!options.showErrorContainer)   options.showErrorContainer   = this.showErrorContainer;
+      if(!options.hideErrorContainer)   options.hideErrorContainer   = this.hideErrorContainer;
+      if(!options.addErrorMessages)     options.addErrorMessages     = this.addErrorMessages;
 
       if(!fields) {
         var oValEls = options.validateElements;
@@ -103,30 +113,23 @@
           self.extractValidations(el.data(oNameString), options.validateIndicator)
         );
 
-        self.bindValidationEvent(el);
+        self.bindValidationEvent(el, form, options);
       });
     },
     
     
     bindFormSubmit: function(form, options) {
+      var self = this;
+      
       form.submit(function() {
         var tasty = true;
         
-        form.data(options.dataNameElements).each(function() {
-          var el   = $(this),
-              vals = el.data(options.dataNameValidations),
-              args = [form, el, el.val()];
+        form.data(options.dataNameElements).each(function() {          
+          var el = $(this);
           
-          for(i = 0; i < vals.length; i ++) {
-            var argsTemp = args;
-            
-            for(a = 0; a < vals[i].arguments.length; a++) {
-              argsTemp.push(vals[i].arguments[a]);
-            }
-            
-            if(!vals[i].func.apply(null, argsTemp)) {
-              tasty = false;
-            }
+          if(self.validateElement(el, form, options) != true) {
+            el.trigger(el.data(options.dataNameEvents));
+            tasty = false;
           }
         });
         
@@ -135,8 +138,40 @@
     },
     
     
-    bindValidationEvent: function(el) {
-      //console.log(el.data());
+    bindValidationEvent: function(el, form, options) {      
+      var self = this;
+      
+      el.bind(el.data(options.dataNameEvents), function() {
+        var tasty     = self.validateElement(el, form, options),
+            container = el.data(options.dataNameContainer);
+        
+	      if(tasty != true) {
+	        if(!container) {
+	          container = options.createErrorContainer(form, el);
+	          el.data(options.dataNameContainer, container);
+	        }
+	        
+	        options.addErrorMessages(form, el, container, tasty);	        
+	        options.showErrorContainer(form, el, container);
+	      } else {
+	        options.hideErrorContainer(form, el, container);
+	      }
+      });
+    },
+    
+    
+    validateElement: function(el, form, options) {
+      var tasty = [],
+          vals  = el.data(options.dataNameValidations),
+          args  = [form, el, el.val()];
+      
+      for(i = 0; i < vals.length; i++) {
+        if(!vals[i].func.apply(null, [form, el, el.val()].concat(vals[i].arguments))) {
+          tasty.push(vals[i].message);
+        }
+      }
+      
+      return tasty.length ? tasty : true;
     },
     
     
@@ -225,7 +260,7 @@
       var returnArr = [];
       
       for(i = 0; i < validateElements.length; i++) {
-        for(e = 0; e <= validateElements[i].length; e++) {
+        for(e = 0; e < validateElements[i].length; e++) {
           if(validateElements[i][e]) {
             returnArr.push(validateElements[i][e]);
           }
@@ -233,6 +268,65 @@
       }
       
       return $(returnArr);
+    },
+    
+    
+    createErrorContainer: function(form, el) {      
+      if(typeof form == 'function') {
+        this.defaults.createErrorContainer = form;
+        return this;
+      } else {
+        var elOffset = el.offset();
+            
+        return $('<div/>', {
+                 html   : '<ul></ul>',
+                 'class': 'ketchup-error',
+                 css    : {
+                            display : 'none',
+                            position: 'absolute',
+                            top     : elOffset.top,
+                            left    : elOffset.left
+                          }
+               }).appendTo('body');
+      }
+    },
+    
+    
+    showErrorContainer: function(form, el, container) {
+      if(typeof form == 'function') {
+        this.defaults.showErrorContainer = form;
+        return this;
+      } else {
+        container.show();
+      }
+    },
+    
+    
+    hideErrorContainer: function(form, el, container) {
+      if(typeof form == 'function') {
+        this.defaults.hideErrorContainer = form;
+        return this;
+      } else {
+        container.hide();
+      }
+    },
+    
+    
+    addErrorMessages: function(form, el, container, messages) {
+      if(typeof form == 'function') {
+        this.defaults.addErrorMessage = form;
+        return this;
+      } else {
+        var list = container.children('ul');
+        
+        list.html('');
+        
+        for(i = 0; i < messages.length; i++) {
+          $('<li/>', {
+            text: messages[i]
+          }).appendTo(list);
+        }
+      }
     }
   };
   
