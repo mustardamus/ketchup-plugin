@@ -164,7 +164,7 @@
       var tasty = [],
           vals  = el.data(options.dataNameValidations),
           args  = [form, el, el.val()];
-      
+
       for(i = 0; i < vals.length; i++) {
         if(!vals[i].func.apply(null, [form, el, el.val()].concat(vals[i].arguments))) {
           tasty.push(vals[i].message);
@@ -279,13 +279,11 @@
         var elOffset = el.offset();
             
         return $('<div/>', {
-                 html   : '<ul></ul>',
+                 html   : '<ul></ul><span></span>',
                  'class': 'ketchup-error',
                  css    : {
-                            display : 'none',
-                            position: 'absolute',
-                            top     : elOffset.top,
-                            left    : elOffset.left
+                            top : elOffset.top,
+                            left: elOffset.left + el.width() - 20
                           }
                }).appendTo('body');
       }
@@ -296,8 +294,11 @@
       if(typeof form == 'function') {
         this.defaults.showErrorContainer = form;
         return this;
-      } else {
-        container.show();
+      } else {        
+        container.animate({
+          top    : el.offset().top - container.height(),
+          opacity: 1
+        }, 'fast');
       }
     },
     
@@ -307,7 +308,10 @@
         this.defaults.hideErrorContainer = form;
         return this;
       } else {
-        container.hide();
+        container.animate({
+          top    : el.offset().top - 10,
+          opacity: 0
+        });
       }
     },
     

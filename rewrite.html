@@ -6,6 +6,7 @@
     <title>Ketchup Plugin</title>
     
     <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/new_jquery.ketchup.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
     
     <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -19,7 +20,7 @@
       <form action="rewrite.html" id="example">
         <div>
           <label for="ex2_username">Username</label>
-          <input type="text" id="ex2_username" rel="validate(required,username,rangelength(5,20),min(3))" />
+          <input type="text" id="ex2_username" rel="validate(required,username,rangelength(5,20),min(3)) on(keyup)" />
         </div>
         <div>
           <label for="ex2_email">E-Mail</label>
