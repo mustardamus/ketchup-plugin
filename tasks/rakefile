@@ -1,0 +1,16 @@
+require 'rdiscount'
+
+task :default => [:docs]
+
+desc 'Create the HTML Docs from README.md'
+task :docs do
+  md       = File.open('../README.md').read
+  rd       = RDiscount.new(md)
+  template = File.open('../docs/index.html').read
+  header   = template[0..template.index('wrapper') + 8]
+  footer   = '</div></body></html>'
+  
+  File.open('../docs/index.html', 'w').write("#{header}#{rd.to_html}#{footer}")
+  
+  puts 'Done.'
+end
