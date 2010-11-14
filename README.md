@@ -366,3 +366,104 @@ Default Options
     showErrorContainer  : null,                           //function to show the error container (can also be set via $.ketchup.showErrorContainer(fn))
     hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.ketchup.hideErrorContainer(fn))
     addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.ketchup.addErrorMessages(fn))
+    
+
+All validations
+---------------
+
+### Your HTML
+
+    <form id="all" action="index.html">
+      <ul>
+        <li>
+          <label>required</label>
+          <input type="text" data-validate="validate(required)" />
+        </li>
+        <li>
+          <label>required</label>
+          <textarea data-validate="validate(required)"></textarea>
+        </li>
+        <li>
+          <label>required</label>
+          <input type="checkbox" data-validate="validate(required)" />
+        </li>
+        <li>
+          <label>minlength(min)</label>
+          <input type="text" data-validate="validate(minlength(3))" />
+        </li>
+        <li>
+          <label>maxlength(max)</label>
+          <input type="text" data-validate="validate(maxlength(13))" />
+        </li>
+        <li>
+          <label>rangelength(min, max)</label>
+          <input type="text" data-validate="validate(rangelength(3, 13))" />
+        </li>
+        <li>
+          <label>min(min)</label>
+          <input type="text" data-validate="validate(min(3))" />
+        </li>
+        <li>
+          <label>max(max)</label>
+          <input type="text" data-validate="validate(max(13))" />
+        </li>
+        <li>
+          <label>range(min, max)</label>
+          <input type="text" data-validate="validate(range(3, 13))" />
+        </li>
+        <li>
+          <label>number</label>
+          <input type="text" data-validate="validate(number)" />
+        </li>
+        <li>
+          <label>digits</label>
+          <input type="text" data-validate="validate(digits)" />
+        </li>
+        <li>
+          <label>email</label>
+          <input type="text" data-validate="validate(email)" />
+        </li>
+        <li>
+          <label>url</label>
+          <input type="text" data-validate="validate(url)" />
+        </li>
+        <li>
+          <label>username</label>
+          <input type="text" data-validate="validate(username)" />
+        </li>
+        <li>
+          <label>match(word)</label>
+          <input type="text" data-validate="validate(match(ketchup))" />
+        </li>
+        <li>
+          <label>contain(word)</label>
+          <input type="text" data-validate="validate(contain(ketchup))" />
+        </li>
+        <li>
+          <label>date</label>
+          <input type="text" data-validate="validate(date)" />
+        </li>
+        <li>
+          <label>minselect(min)</label>
+          Ketchup
+          <input type="checkbox" name="checkit" />
+          Mustard
+          <input type="checkbox" name="checkit" />
+          Beer
+          <input type="checkbox" name="checkit" data-validate="validate(minselect(2)) on(click change)" />
+        </li>
+        <li>
+          <input type="submit" value="Is Tasty?" />
+        </li>
+      </ul>
+    </form>
+
+### Your Javascript
+
+    var form = $('#all');
+    
+    form.bind('ketchup.fieldInitialized', function(event, el) {
+      //console.log(el);
+    });
+    
+    form.ketchup({ validateEvents: 'keyup blur' }).submit();

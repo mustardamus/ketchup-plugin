@@ -33,7 +33,8 @@
           
       this.validations[arguments[0]] = {
         message: message,
-        func   : func
+        func   : func,
+        init   : arguments[3] || function(form, el) {}
       };
       
       return this;
@@ -74,7 +75,10 @@
           valEls       = this.initFunctions().initFields(form, fields);
       
       valEls.each(function() {
-        self.bindValidationEvent($(this), form);
+        var el = $(this);
+        
+        self.bindValidationEvent(form, el)
+            .callInitFunctions(form, el);
       });
           
       form.data(options.dataNameElements, valEls);
@@ -109,15 +113,22 @@
           valEls = $(!fields ? this.fieldsFromForm(form) : this.fieldsFromObject(form, fields));
       
       valEls.each(function() {
-        var el = $(this);
+        var el   = $(this),
+            vals = self.extractValidations(el.data(opt.dataNameString), opt.validateIndicator);
         
-        el.data(
-          opt.dataNameValidations,
-          self.extractValidations(el.data(opt.dataNameString), opt.validateIndicator)
-        );
+        el.data(opt.dataNameValidations, vals);
       });
       
       return valEls;
+    },
+    
+    
+    callInitFunctions: function(form, el) {
+      var vals = el.data(this.options.dataNameValidations);
+      
+      for(i = 0; i < vals.length; i++) {
+        vals[i].init.apply(this.helpers, [form, el]);
+      }
     },
     
     
@@ -210,9 +221,7 @@
               youMayWantToRewriteThisPart += valstring + ',';
             }
           }
-          
-          
-          
+                    
           valString = youMayWantToRewriteThisPart;
         }
         
@@ -237,11 +246,7 @@
           var el = $(this);
           
           if(self.validateElement(el, form) != true) {
-            var events = el.data(opt.dataNameEvents).split(' ');
-            
-            for(var e = 0; e < events.length; e++) {
-              el.trigger(events[e]);
-            }
+            self.triggerValidationEvents(el);
             
             tasty = false;
           }
@@ -252,25 +257,39 @@
     },
     
     
-    bindValidationEvent: function(el, form) {      
-      var self = this,
-          opt  = this.options;
+    bindValidationEvent: function(form, el) {      
+      var self        = this,
+          opt         = this.options,
+          events      = el.data(opt.dataNameEvents).split(' ');
       
-      el.bind(el.data(opt.dataNameEvents), function() {
-        var tasty     = self.validateElement(el, form),
-            container = el.data(opt.dataNameContainer);
-        
-        if(tasty != true) {
-          if(!container) {
-            container = opt.createErrorContainer(form, el);
-            el.data(opt.dataNameContainer, container);
+      for(i = 0; i < events.length; i++) {
+        el.bind('ketchup.' + events[i], function() {
+          var tasty     = self.validateElement(el, form),
+              container = el.data(opt.dataNameContainer);
+
+          if(tasty != true) {
+            if(!container) {
+              container = opt.createErrorContainer(form, el);
+              el.data(opt.dataNameContainer, container);
+            }
+
+            opt.addErrorMessages(form, el, container, tasty);	        
+            opt.showErrorContainer(form, el, container);
+          } else {
+            opt.hideErrorContainer(form, el, container);
           }
-  
-          opt.addErrorMessages(form, el, container, tasty);	        
-          opt.showErrorContainer(form, el, container);
-        } else {
-          opt.hideErrorContainer(form, el, container);
-        }
+        });
+        
+        this.bindValidationEventBridge(el, events[i]);
+      }
+      
+      return this;
+    },
+    
+    
+    bindValidationEventBridge: function(el, event) {
+      el.bind(event, function() {
+        el.trigger('ketchup.' + event);
       });
     },
     
@@ -287,6 +306,15 @@
       }
       
       return tasty.length ? tasty : true;
+    },
+    
+    
+    triggerValidationEvents: function(el) {
+      var events = el.data(this.options.dataNameEvents).split(' ');
+      
+      for(var e = 0; e < events.length; e++) {
+        el.trigger('ketchup.' + events[e]);
+      }
     },
     
     
@@ -350,7 +378,8 @@
             name     : valName,
             arguments: valArgs,
             func     : valFunc.func,
-            message  : message
+            message  : message,
+            init     : valFunc.init
           });
         }
       }
@@ -451,9 +480,13 @@
   
   
   $.fn.ketchup = function(options, fields) {
-    this.each(function() {
-      $.ketchup.init($(this), $.extend({}, $.ketchup.defaults, options), fields);
-    });
+    if(typeof options == 'string') {
+      $.ketchup.triggerValidationEvents($(this));
+    } else {
+      this.each(function() {
+        $.ketchup.init($(this), $.extend({}, $.ketchup.defaults, options), fields);
+      });
+    }
     
     return this;
   };
