@@ -346,6 +346,7 @@ To-Do
  * Rewrite fieldsFrom* methods
  * Trigger events
  * Docs for Helpers
+ * make dataName* not an option
  * Finish docs
 
 
@@ -453,17 +454,31 @@ All validations
           <input type="checkbox" name="checkit" data-validate="validate(minselect(2)) on(click change)" />
         </li>
         <li>
+          <label>maxselect(max)</label>
+          Ketchup
+          <input type="checkbox" name="checkitmax" />
+          Mustard
+          <input type="checkbox" name="checkitmax" />
+          Beer
+          <input type="checkbox" name="checkitmax" data-validate="validate(maxselect(2)) on(click change)" />
+        </li>
+        <li>
+          <label>rangeselect(max)</label>
+          Ketchup
+          <input type="checkbox" name="checkitrange" />
+          Mustard
+          <input type="checkbox" name="checkitrange" />
+          Yammie
+          <input type="checkbox" name="checkitrange" />
+          Beer
+          <input type="checkbox" name="checkitrange" data-validate="validate(rangeselect(2, 3)) on(click change)" />
+        </li>
+        <li>
           <input type="submit" value="Is Tasty?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
-
-    var form = $('#all');
     
-    form.bind('ketchup.fieldInitialized', function(event, el) {
-      //console.log(el);
-    });
-    
-    form.ketchup({ validateEvents: 'keyup blur' }).submit();
+    $('#all').ketchup({ validateEvents: 'keyup blur' }).submit();

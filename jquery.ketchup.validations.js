@@ -67,10 +67,20 @@ jQuery.ketchup
 
 .validation('minselect', 'Select at least {arg1} checkboxes.', function(form, el, value, min) {
   return (min <= this.inputsWithName(form, el).filter(':checked').length);
-}, function(form, el) {  
-  this.inputsWithName(form, el).filter(function() {
-    return ($(this).index() != el.index());
-  }).bind('click', function() {
-    el.ketchup('validate');
-  });
+}, function(form, el) {
+  this.bindBrothers(form, el);
+})
+
+.validation('maxselect', 'Select not more than {arg1} checkboxes.', function(form, el, value, max) {
+  return (max >= this.inputsWithName(form, el).filter(':checked').length);
+}, function(form, el) {
+  this.bindBrothers(form, el);
+})
+
+.validation('rangeselect', 'Select between {arg1} and {arg2} checkboxes.', function(form, el, value, min, max) {
+  var checked = this.inputsWithName(form, el).filter(':checked').length;
+  
+  return (min <= checked && max >= checked);
+}, function(form, el) {
+  this.bindBrothers(form, el);
 });

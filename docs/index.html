@@ -476,6 +476,26 @@ addErrorMessages    : null                            //function to add error me
       &lt;input type="checkbox" name="checkit" data-validate="validate(minselect(2)) on(click change)" /&gt;
     &lt;/li&gt;
     &lt;li&gt;
+      &lt;label&gt;maxselect(max)&lt;/label&gt;
+      Ketchup
+      &lt;input type="checkbox" name="checkitmax" /&gt;
+      Mustard
+      &lt;input type="checkbox" name="checkitmax" /&gt;
+      Beer
+      &lt;input type="checkbox" name="checkitmax" data-validate="validate(maxselect(2)) on(click change)" /&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;label&gt;rangeselect(max)&lt;/label&gt;
+      Ketchup
+      &lt;input type="checkbox" name="checkitrange" /&gt;
+      Mustard
+      &lt;input type="checkbox" name="checkitrange" /&gt;
+      Yammie
+      &lt;input type="checkbox" name="checkitrange" /&gt;
+      Beer
+      &lt;input type="checkbox" name="checkitrange" data-validate="validate(rangeselect(2, 3)) on(click change)" /&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
       &lt;input type="submit" value="Is Tasty?" /&gt;
     &lt;/li&gt;
   &lt;/ul&gt;
@@ -484,12 +504,6 @@ addErrorMessages    : null                            //function to add error me
 
 <h3>Your Javascript</h3>
 
-<pre><code>var form = $('#all');
-
-form.bind('ketchup.fieldInitialized', function(event, el) {
-  //console.log(el);
-});
-
-form.ketchup({ validateEvents: 'keyup blur' }).submit();
+<pre><code>$('#all').ketchup({ validateEvents: 'keyup blur' }).submit();
 </code></pre>
 </div></body></html>

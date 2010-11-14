@@ -26,4 +26,27 @@ jQuery.ketchup
 
 .helper('inputsWithName', function(form, el) {
   return $('input[name="' + el.attr('name') + '"]', form);
+})
+
+.helper('inputsWithNameNotSelf', function(form, el) {
+  return this.inputsWithName(form, el).filter(function() {
+           return ($(this).index() != el.index());
+         });
+})
+
+.helper('getKetchupEvents', function(el) {
+  var events = el.data('events').ketchup,
+      retArr = [];
+  
+  for(i = 0; i < events.length; i++) {
+    retArr.push(events[i].namespace);
+  }
+      
+  return retArr.join(' ');
+})
+
+.helper('bindBrothers', function(form, el) {
+  this.inputsWithNameNotSelf(form, el).bind(this.getKetchupEvents(el), function() {
+    el.ketchup('validate');
+  });
 });
