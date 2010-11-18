@@ -103,7 +103,7 @@ If you declare fields like this you can left out the validations indicator.
       '.required'    : 'required',    //all fields in the form with the class 'required'
       '#fic-username': 'minlength(3)' //one field in the form with the id 'fic-username'
     });
-
+    
 
 Validate on different events
 ----------------------------
@@ -341,12 +341,56 @@ Control the behavior of the error container
     });
 
 
+Check if the form and fields are valid from outside
+---------------------------------------------------
+
+### Your HTML
+
+    <form id="from-outside" action="index.html">
+      <ul>
+        <li>
+          <label for="fo-mail">E-Mail</label>
+          <input type="text" id="fo-mail" data-validate="validate(required, email)" />
+        </li>
+        <li>
+          <label for="fo-username">Username</label>
+          <input type="text" id="fo-username" data-validate="validate(required, username, minlength(5))" />
+        </li>
+        <li>
+          <input type="submit" value="Is Tasty?" />
+        </li>
+      </ul>
+    </form>
+
+### Your Javascript
+
+    //reset our show function so no error container is displayed
+    $.ketchup.showErrorContainer(function(){});
+     
+    var form     = $('#from-outside'),
+        mail     = $('#fo-mail', form),
+        username = $('#fo-username', form),
+        result   = $('<ul/>').appendTo(form);
+    
+    form.ketchup().submit(function() {
+      result.html('');
+      
+      $.each([form, mail, username], function(index, el) {
+        var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
+        
+        $('<li/>', {
+          'class': valid,
+          text   : '#' + el.attr('id') + ' is ' + valid
+        }).appendTo(result);
+      });
+    }).submit();
+
+
 To-Do
 -----
  * Rewrite fieldsFrom* methods
  * Trigger events
  * Docs for Helpers
- * Different helpers on elements (like validate, isValid - auch auf form (check node))
  * Finish docs
 
 

@@ -244,20 +244,28 @@
           opt  = this.options;
       
       form.submit(function() {
-        var tasty = true;
-        
-        form.data(self.dataNames.elements).each(function() {          
-          var el = $(this);
-          
-          if(self.validateElement(el, form) != true) {
-            self.triggerValidationEvents(el);
-            
-            tasty = false;
-          }
-        });
-        
-        return tasty;
+        return self.allFieldsValid(form, true);
       });
+    },
+    
+    
+    allFieldsValid: function(form, triggerEvents) {
+      var self  = this,
+          tasty = true;
+      
+      form.data(this.dataNames.elements).each(function() {          
+        var el = $(this);
+        
+        if(self.validateElement(el, form) != true) {
+          if(triggerEvents == true) {
+            self.triggerValidationEvents(el);
+          }
+          
+          tasty = false;
+        }
+      });
+      
+      return tasty;
     },
     
     
@@ -311,6 +319,22 @@
       }
       
       return tasty.length ? tasty : true;
+    },
+    
+    
+    elementIsValid: function(el) {
+      var dataNames = this.dataNames,
+          elements  = el.data(dataNames.elements);
+      
+      if(el.data(dataNames.validations)) {
+        var form = el.parentsUntil('form').last().parent();
+        
+        return (this.validateElement(el, form) == true ? true : false);
+      } else if(elements) {
+        return this.allFieldsValid(el);
+      }
+      
+      return null;
     },
     
     
@@ -485,18 +509,20 @@
   
   
   $.fn.ketchup = function(options, fields) {
+    var el = $(this);
+    
     if(typeof options == 'string') {
       switch(options) {
         case 'validate':
-          $.ketchup.triggerValidationEvents($(this));
+          $.ketchup.triggerValidationEvents(el);
           break;
         case 'isValid':
-          //return true or false
+          return $.ketchup.elementIsValid(el);
           break;
       }
     } else {
       this.each(function() {
-        $.ketchup.init($(this), $.extend({}, $.ketchup.defaults, options), fields);
+        $.ketchup.init(el, $.extend({}, $.ketchup.defaults, options), fields);
       });
     }
     

@@ -40,7 +40,6 @@ jQuery.ketchup
   return /^\d+$/.test(value);
 })
 
-//only check value not empty string, required as own
 .validation('email', 'Must be a valid E-Mail.', function(form, el, value) {
   return this.isEmail(value);
 })

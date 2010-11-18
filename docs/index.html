@@ -364,6 +364,51 @@ $('#custom-behavior').ketchup({
 });
 </code></pre>
 
+<h2>Check if the form and fields are valid from outside</h2>
+
+<h3>Your HTML</h3>
+
+<pre><code>&lt;form id="from-outside" action="index.html"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;label for="fo-mail"&gt;E-Mail&lt;/label&gt;
+      &lt;input type="text" id="fo-mail" data-validate="validate(required, email)" /&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;label for="fo-username"&gt;Username&lt;/label&gt;
+      &lt;input type="text" id="fo-username" data-validate="validate(required, username, minlength(5))" /&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;input type="submit" value="Is Tasty?" /&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h3>Your Javascript</h3>
+
+<pre><code>//reset our show function so no error container is displayed
+$.ketchup.showErrorContainer(function(){});
+
+var form     = $('#from-outside'),
+    mail     = $('#fo-mail', form),
+    username = $('#fo-username', form),
+    result   = $('&lt;ul/&gt;').appendTo(form);
+
+form.ketchup().submit(function() {
+  result.html('');
+
+  $.each([form, mail, username], function(index, el) {
+    var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
+
+    $('&lt;li/&gt;', {
+      'class': valid,
+      text   : '#' + el.attr('id') + ' is ' + valid
+    }).appendTo(result);
+  });
+}).submit();
+</code></pre>
+
 <h2>To-Do</h2>
 
 <ul>
