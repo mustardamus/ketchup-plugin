@@ -346,7 +346,7 @@ To-Do
  * Rewrite fieldsFrom* methods
  * Trigger events
  * Docs for Helpers
- * make dataName* not an option
+ * Different helpers on elements (like validate, isValid - auch auf form (check node))
  * Finish docs
 
 
@@ -358,127 +358,7 @@ Default Options
     eventIndicator      : 'on',                           //in the validation string this indicates the events when validations get fired eg on(blur)
     validateEvents      : 'blur',                         //the default event when validations get fired on every field
     validateElements    : ['input', 'textarea', 'select'],//check this fields in the form for a validation string on the attribute
-    dataNameString      : 'ketchup-validation-string',    //data name to store the validation string
-    dataNameValidations : 'ketchup-validations',          //data name to store the validations (names & functions)
-    dataNameEvents      : 'ketchup-events',               //data name to store the events when validations get fired
-    dataNameElements    : 'ketchup-validation-elements',  //data name for the fields to validate (set on the form)
-    dataNameContainer   : 'ketchup-container',            //data name for the error container element
     createErrorContainer: null,                           //function to create the error container (can also be set via $.ketchup.createErrorContainer(fn))
     showErrorContainer  : null,                           //function to show the error container (can also be set via $.ketchup.showErrorContainer(fn))
     hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.ketchup.hideErrorContainer(fn))
     addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.ketchup.addErrorMessages(fn))
-    
-
-All validations
----------------
-
-### Your HTML
-
-    <form id="all" action="index.html">
-      <ul>
-        <li>
-          <label>required</label>
-          <input type="text" data-validate="validate(required)" />
-        </li>
-        <li>
-          <label>required</label>
-          <textarea data-validate="validate(required)"></textarea>
-        </li>
-        <li>
-          <label>required</label>
-          <input type="checkbox" data-validate="validate(required)" />
-        </li>
-        <li>
-          <label>minlength(min)</label>
-          <input type="text" data-validate="validate(minlength(3))" />
-        </li>
-        <li>
-          <label>maxlength(max)</label>
-          <input type="text" data-validate="validate(maxlength(13))" />
-        </li>
-        <li>
-          <label>rangelength(min, max)</label>
-          <input type="text" data-validate="validate(rangelength(3, 13))" />
-        </li>
-        <li>
-          <label>min(min)</label>
-          <input type="text" data-validate="validate(min(3))" />
-        </li>
-        <li>
-          <label>max(max)</label>
-          <input type="text" data-validate="validate(max(13))" />
-        </li>
-        <li>
-          <label>range(min, max)</label>
-          <input type="text" data-validate="validate(range(3, 13))" />
-        </li>
-        <li>
-          <label>number</label>
-          <input type="text" data-validate="validate(number)" />
-        </li>
-        <li>
-          <label>digits</label>
-          <input type="text" data-validate="validate(digits)" />
-        </li>
-        <li>
-          <label>email</label>
-          <input type="text" data-validate="validate(email)" />
-        </li>
-        <li>
-          <label>url</label>
-          <input type="text" data-validate="validate(url)" />
-        </li>
-        <li>
-          <label>username</label>
-          <input type="text" data-validate="validate(username)" />
-        </li>
-        <li>
-          <label>match(word)</label>
-          <input type="text" data-validate="validate(match(ketchup))" />
-        </li>
-        <li>
-          <label>contain(word)</label>
-          <input type="text" data-validate="validate(contain(ketchup))" />
-        </li>
-        <li>
-          <label>date</label>
-          <input type="text" data-validate="validate(date)" />
-        </li>
-        <li>
-          <label>minselect(min)</label>
-          Ketchup
-          <input type="checkbox" name="checkit" />
-          Mustard
-          <input type="checkbox" name="checkit" />
-          Beer
-          <input type="checkbox" name="checkit" data-validate="validate(minselect(2)) on(click change)" />
-        </li>
-        <li>
-          <label>maxselect(max)</label>
-          Ketchup
-          <input type="checkbox" name="checkitmax" />
-          Mustard
-          <input type="checkbox" name="checkitmax" />
-          Beer
-          <input type="checkbox" name="checkitmax" data-validate="validate(maxselect(2)) on(click change)" />
-        </li>
-        <li>
-          <label>rangeselect(max)</label>
-          Ketchup
-          <input type="checkbox" name="checkitrange" />
-          Mustard
-          <input type="checkbox" name="checkitrange" />
-          Yammie
-          <input type="checkbox" name="checkitrange" />
-          Beer
-          <input type="checkbox" name="checkitrange" data-validate="validate(rangeselect(2, 3)) on(click change)" />
-        </li>
-        <li>
-          <input type="submit" value="Is Tasty?" />
-        </li>
-      </ul>
-    </form>
-
-### Your Javascript
-    
-    $('#all').ketchup({ validateEvents: 'keyup blur' }).submit();

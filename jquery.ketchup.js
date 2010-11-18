@@ -6,18 +6,20 @@
       eventIndicator      : 'on',                           //in the validation string this indicates the events when validations get fired eg on(blur)
       validateEvents      : 'blur',                         //the default event when validations get fired on every field
       validateElements    : ['input', 'textarea', 'select'],//check this fields in the form for a validation string on the attribute
-      dataNameString      : 'ketchup-validation-string',    //data name to store the validation string
-      dataNameValidations : 'ketchup-validations',          //data name to store the validations (names & functions)
-      dataNameEvents      : 'ketchup-events',               //data name to store the events when validations get fired
-      dataNameElements    : 'ketchup-validation-elements',  //data name for the fields to validate (set on the form)
-      dataNameContainer   : 'ketchup-container',            //data name for the error container element
       createErrorContainer: null,                           //function to create the error container (can also be set via $.ketchup.createErrorContainer(fn))
       showErrorContainer  : null,                           //function to show the error container (can also be set via $.ketchup.showErrorContainer(fn))
       hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.ketchup.hideErrorContainer(fn))
       addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.ketchup.addErrorMessages(fn))
     },
-    validations: {},
-    helpers    : {},
+    dataNames: {
+      validationString    : 'ketchup-validation-string',
+      validations         : 'ketchup-validations',
+      events              : 'ketchup-events',
+      elements            : 'ketchup-validation-elements',
+      container           : 'ketchup-container'
+    },
+    validations           : {},
+    helpers               : {},
     
     
     validation: function() {
@@ -81,7 +83,7 @@
             .callInitFunctions(form, el);
       });
           
-      form.data(options.dataNameElements, valEls);
+      form.data(this.dataNames.elements, valEls);
       this.bindFormSubmit(form);
     },
     
@@ -108,15 +110,15 @@
     
     
     initFields: function(form, fields) {
-      var self   = this,
-          opt    = this.options,
-          valEls = $(!fields ? this.fieldsFromForm(form) : this.fieldsFromObject(form, fields));
+      var self      = this,
+          dataNames = this.dataNames,
+          valEls    = $(!fields ? this.fieldsFromForm(form) : this.fieldsFromObject(form, fields));
       
       valEls.each(function() {
         var el   = $(this),
-            vals = self.extractValidations(el.data(opt.dataNameString), opt.validateIndicator);
+            vals = self.extractValidations(el.data(dataNames.validationString), self.options.validateIndicator);
         
-        el.data(opt.dataNameValidations, vals);
+        el.data(dataNames.validations, vals);
       });
       
       return valEls;
@@ -124,7 +126,7 @@
     
     
     callInitFunctions: function(form, el) {
-      var vals = el.data(this.options.dataNameValidations);
+      var vals = el.data(this.dataNames.validations);
       
       for(i = 0; i < vals.length; i++) {
         vals[i].init.apply(this.helpers, [form, el]);
@@ -133,11 +135,12 @@
     
     
     fieldsFromForm: function(form) {
-      var self    = this,
-          opt     = this.options,
-          oValEls = opt.validateElements,
-          retArr  = [];
-          oValEls = typeof oValEls == 'string' ? [oValEls] : oValEls;
+      var self      = this,
+          opt       = this.options,
+          dataNames = this.dataNames,
+          oValEls   = opt.validateElements,
+          retArr    = [];
+          oValEls   = typeof oValEls == 'string' ? [oValEls] : oValEls;
       
       for(i = 0; i < oValEls.length; i++) {
         var els = form.find(oValEls[i] + '[' + opt.attribute + '*=' + opt.validateIndicator + ']');
@@ -147,7 +150,7 @@
               attr   = el.attr(opt.attribute),
               events = self.extractEvents(attr, opt.eventIndicator);
 
-          el.data(opt.dataNameString, attr).data(opt.dataNameEvents, events ? events : opt.validateEvents);
+          el.data(dataNames.validationString, attr).data(dataNames.events, events ? events : opt.validateEvents);
         });
         
         retArr.push(els.get());
@@ -159,6 +162,7 @@
     
     fieldsFromObject: function(form, fields) {
       var opt    = this.options,
+          dataNames = this.dataNames,
           retArr = [];
       
       for(s in fields) {
@@ -173,8 +177,8 @@
         }
         
         var els  = form.find(s),
-            val  = els.data(opt.dataNameString),
-            eve  = els.data(opt.dataNameEvents);
+            val  = els.data(dataNames.validationString),
+            eve  = els.data(dataNames.events);
         
         if(val && eve) {
           var eves = eve.split(' '),
@@ -225,8 +229,8 @@
           valString = youMayWantToRewriteThisPart;
         }
         
-        els.data(opt.dataNameString, opt.validateIndicator + '(' + valString + ')')
-           .data(opt.dataNameEvents, events);
+        els.data(dataNames.validationString, opt.validateIndicator + '(' + valString + ')')
+           .data(dataNames.events, events);
 
         retArr.push(els.get());
       }
@@ -242,7 +246,7 @@
       form.submit(function() {
         var tasty = true;
         
-        form.data(opt.dataNameElements).each(function() {          
+        form.data(self.dataNames.elements).each(function() {          
           var el = $(this);
           
           if(self.validateElement(el, form) != true) {
@@ -258,19 +262,20 @@
     
     
     bindValidationEvent: function(form, el) {      
-      var self        = this,
-          opt         = this.options,
-          events      = el.data(opt.dataNameEvents).split(' ');
+      var self      = this,
+          opt       = this.options,
+          dataNames = this.dataNames,
+          events    = el.data(dataNames.events).split(' ');
       
       for(i = 0; i < events.length; i++) {
         el.bind('ketchup.' + events[i], function() {
           var tasty     = self.validateElement(el, form),
-              container = el.data(opt.dataNameContainer);
+              container = el.data(dataNames.container);
 
           if(tasty != true) {
             if(!container) {
               container = opt.createErrorContainer(form, el);
-              el.data(opt.dataNameContainer, container);
+              el.data(dataNames.container, container);
             }
 
             opt.addErrorMessages(form, el, container, tasty);	        
@@ -296,7 +301,7 @@
     
     validateElement: function(el, form) {
       var tasty = [],
-          vals  = el.data(this.options.dataNameValidations),
+          vals  = el.data(this.dataNames.validations),
           args  = [form, el, el.val()];
 
       for(i = 0; i < vals.length; i++) {
@@ -310,7 +315,7 @@
     
     
     triggerValidationEvents: function(el) {
-      var events = el.data(this.options.dataNameEvents).split(' ');
+      var events = el.data(this.dataNames.events).split(' ');
       
       for(var e = 0; e < events.length; e++) {
         el.trigger('ketchup.' + events[e]);
@@ -481,7 +486,14 @@
   
   $.fn.ketchup = function(options, fields) {
     if(typeof options == 'string') {
-      $.ketchup.triggerValidationEvents($(this));
+      switch(options) {
+        case 'validate':
+          $.ketchup.triggerValidationEvents($(this));
+          break;
+        case 'isValid':
+          //return true or false
+          break;
+      }
     } else {
       this.each(function() {
         $.ketchup.init($(this), $.extend({}, $.ketchup.defaults, options), fields);
