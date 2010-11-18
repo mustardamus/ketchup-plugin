@@ -383,6 +383,8 @@ Check if the form and fields are valid from outside
           text   : '#' + el.attr('id') + ' is ' + valid
         }).appendTo(result);
       });
+      
+      return false; //don't submit the form even if it's valid
     }).submit();
 
 
@@ -392,6 +394,8 @@ To-Do
  * Trigger events
  * Docs for Helpers
  * Finish docs
+ * Style docs
+ * Add navigation to html docs
 
 
 Default Options

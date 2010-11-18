@@ -406,6 +406,8 @@ form.ketchup().submit(function() {
       text   : '#' + el.attr('id') + ' is ' + valid
     }).appendTo(result);
   });
+
+  return false; //don't submit the form even if it's valid
 }).submit();
 </code></pre>
 
@@ -416,6 +418,7 @@ form.ketchup().submit(function() {
 <li>Trigger events</li>
 <li>Docs for Helpers</li>
 <li>Finish docs</li>
+<li>Style docs</li>
 </ul>
 
 

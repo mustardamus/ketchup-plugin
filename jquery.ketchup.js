@@ -323,14 +323,13 @@
     
     
     elementIsValid: function(el) {
-      var dataNames = this.dataNames,
-          elements  = el.data(dataNames.elements);
+      var dataNames = this.dataNames;
       
       if(el.data(dataNames.validations)) {
         var form = el.parentsUntil('form').last().parent();
         
         return (this.validateElement(el, form) == true ? true : false);
-      } else if(elements) {
+      } else if(el.data(dataNames.elements)) {
         return this.allFieldsValid(el);
       }
       
