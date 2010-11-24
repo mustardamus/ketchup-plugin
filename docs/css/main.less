@@ -10,3 +10,13 @@ pre { background: #333; background: rgba(51, 51, 51, 0.95); text-shadow: 1px 1px
   code { width: auto; }
 }
 p { font-size: 1.4em; padding-bottom: 18px; line-height: 1.4em; }
+
+.demo { border: 1px dotted #333; margin: 20px 0; padding: 10px;
+  ul {
+    li { border-top: 1px solid #eee; padding: 8px 0;
+      label { display: block; padding-bottom: 4px; }
+      input[type="submit"] { cursor: pointer; }
+    }
+    li:first-child { border-top: none; }
+  }
+}

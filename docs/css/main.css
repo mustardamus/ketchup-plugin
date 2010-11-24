@@ -47,3 +47,18 @@ p {
   padding-bottom: 18px;
   line-height: 1.4em;
 }
+.demo {
+  border: 1px dotted #333333;
+  margin: 20px 0;
+  padding: 10px;
+}
+.demo ul li {
+  border-top: 1px solid #eeeeee;
+  padding: 8px 0;
+}
+.demo ul li label {
+  display: block;
+  padding-bottom: 4px;
+}
+.demo ul li input[type="submit"] { cursor: pointer; }
+.demo ul li:first-child { border-top: none; }
