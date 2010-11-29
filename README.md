@@ -51,6 +51,9 @@ go in there and are seperated by comma. Validations can have arguments, also sep
           <input type="text" id="db-username" data-validate="validate(required, username, minlength(3))" />
         </li>
         <li>
+          <input type="radio" id="test" data-validate="validate(required)" />
+        </li>
+        <li>
           <input type="submit" value="Is Tasty?" />
         </li>
       </ul>
