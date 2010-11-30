@@ -152,11 +152,18 @@ Write your own validations
 
 You can write your own validation functions for Ketchup. A validation function must return a
 boolean, true if the field validates fine and false if it fails to validate.
+
 Validations are called with at least three arguments:
 
  * `form`  - the jQuery object for the form (we validate in this form)
  * `el`    - the jQuery object for the form field (we validate on this field)
- * `value` - the value of the for field (short for `el.val()`) 
+ * `value` - the value of the form field (short for `el.val()`)
+
+After these three arguments you can declare the arguments for your validation. In this example the
+`word` validation has two arguments, `word1` and `word2`. You pass in the arguments in your validation call like
+`word(ketchup, mustard)`. Now 'ketchup' is the `word1` argument and so on.
+
+Validation messages have `{argN}` placeholders for your arguments. `Is {arg1}` would become `Is ketchup`.
 
 ### Your HTML
 
@@ -365,29 +372,31 @@ Check if the form and fields are valid from outside
     </form>
 
 ### Your Javascript
-
-    //reset our show function so no error container is displayed
-    $.ketchup.showErrorContainer(function(){});
      
     var form     = $('#from-outside'),
         mail     = $('#fo-mail', form),
         username = $('#fo-username', form),
-        result   = $('<ul/>').appendTo(form);
+        result   = $('<ul/>', { id: 'fo-errors' }).appendTo(form);
     
-    form.ketchup().submit(function() {
-      result.html('');
+    form
+      .ketchup({
+        validateEvents: 'none'
+      })
+      .find('input').keyup(function() {
+        result.html('');
       
-      $.each([form, mail, username], function(index, el) {
-        var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
+        $.each([form, mail, username], function(index, el) {
+          var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
         
-        $('<li/>', {
-          'class': valid,
-          text   : '#' + el.attr('id') + ' is ' + valid
-        }).appendTo(result);
-      });
+          $('<li/>', {
+            'class': valid,
+            text   : '#' + el.attr('id') + ' is ' + valid
+          }).appendTo(result);
+        });
       
-      return false; //don't submit the form even if it's valid
-    }).submit();
+        return false; //don't submit the form even if it's valid
+      })
+      .last().keyup();
 
 
 To-Do
@@ -399,7 +408,7 @@ To-Do
  * Style docs
  * Add navigation to html docs
  * Docs about validation init callback
- * Exclusive data- field (no `valdate()`) - by default, extra chapter with validate indicator (old `class`).
+ * Get rid of validate() indicator, events in extra attribute
 
 
 Default Options

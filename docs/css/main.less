@@ -10,13 +10,20 @@ pre { background: #333; background: rgba(51, 51, 51, 0.95); text-shadow: 1px 1px
   code { width: auto; }
 }
 p { font-size: 1.4em; padding-bottom: 18px; line-height: 1.4em; }
+ul { font-size: 1.4em; padding: 0 0 18px 30px; line-height: 1.6em; list-style: disc; }
 
-.demo { border: 1px dotted #333; margin: 20px 0; padding: 10px;
-  ul {
+.demo { border: 1px dotted #333; margin: 20px 0; padding: 10px; position: relative;
+  ul { list-style: none; padding: 0;
     li { border-top: 1px solid #eee; padding: 8px 0;
       label { display: block; padding-bottom: 4px; }
       input[type="submit"] { cursor: pointer; }
     }
     li:first-child { border-top: none; }
+  }
+  
+  #fo-errors { position: absolute; width: 250px; top: 50px; left: 200px;
+    li { border: 0; padding: 2px 6px; }
+    li.valid { background: green; }
+    li.invalid { background: red; }
   }
 }

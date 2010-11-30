@@ -47,10 +47,21 @@ p {
   padding-bottom: 18px;
   line-height: 1.4em;
 }
+ul {
+  font-size: 1.4em;
+  padding: 0 0 18px 30px;
+  line-height: 1.6em;
+  list-style: disc;
+}
 .demo {
   border: 1px dotted #333333;
   margin: 20px 0;
   padding: 10px;
+  position: relative;
+}
+.demo ul {
+  list-style: none;
+  padding: 0;
 }
 .demo ul li {
   border-top: 1px solid #eeeeee;
@@ -62,3 +73,15 @@ p {
 }
 .demo ul li input[type="submit"] { cursor: pointer; }
 .demo ul li:first-child { border-top: none; }
+.demo #fo-errors {
+  position: absolute;
+  width: 250px;
+  top: 50px;
+  left: 200px;
+}
+.demo #fo-errors li {
+  border: 0;
+  padding: 2px 6px;
+}
+.demo #fo-errors li.valid { background: green; }
+.demo #fo-errors li.invalid { background: red; }

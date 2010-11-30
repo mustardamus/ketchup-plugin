@@ -167,15 +167,22 @@ $('#validation-events').ketchup({}, {
 <h2>Write your own validations</h2>
 
 <p>You can write your own validation functions for Ketchup. A validation function must return a
-boolean, true if the field validates fine and false if it fails to validate.
-Validations are called with at least three arguments:</p>
+boolean, true if the field validates fine and false if it fails to validate.</p>
+
+<p>Validations are called with at least three arguments:</p>
 
 <ul>
 <li><code>form</code>  - the jQuery object for the form (we validate in this form)</li>
 <li><code>el</code>    - the jQuery object for the form field (we validate on this field)</li>
-<li><code>value</code> - the value of the for field (short for <code>el.val()</code>)</li>
+<li><code>value</code> - the value of the form field (short for <code>el.val()</code>)</li>
 </ul>
 
+
+<p>After these three arguments you can declare the arguments for your validation. In this example the
+<code>word</code> validation has two arguments, <code>word1</code> and <code>word2</code>. You pass in the arguments in your validation call like
+<code>word(ketchup, mustard)</code>. Now 'ketchup' is the <code>word1</code> argument and so on.</p>
+
+<p>Validation messages have <code>{argN}</code> placeholders for your arguments. <code>Is {arg1}</code> would become <code>Is ketchup</code>.</p>
 
 <h3>Your HTML</h3>
 
@@ -389,28 +396,30 @@ $('#custom-behavior').ketchup({
 
 <h3>Your Javascript</h3>
 
-<pre><code>//reset our show function so no error container is displayed
-$.ketchup.showErrorContainer(function(){});
-
-var form     = $('#from-outside'),
+<pre><code>var form     = $('#from-outside'),
     mail     = $('#fo-mail', form),
     username = $('#fo-username', form),
-    result   = $('&lt;ul/&gt;').appendTo(form);
+    result   = $('&lt;ul/&gt;', { id: 'fo-errors' }).appendTo(form);
 
-form.ketchup().submit(function() {
-  result.html('');
+form
+  .ketchup({
+    validateEvents: 'none'
+  })
+  .find('input').keyup(function() {
+    result.html('');
 
-  $.each([form, mail, username], function(index, el) {
-    var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
+    $.each([form, mail, username], function(index, el) {
+      var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
 
-    $('&lt;li/&gt;', {
-      'class': valid,
-      text   : '#' + el.attr('id') + ' is ' + valid
-    }).appendTo(result);
-  });
+      $('&lt;li/&gt;', {
+        'class': valid,
+        text   : '#' + el.attr('id') + ' is ' + valid
+      }).appendTo(result);
+    });
 
-  return false; //don't submit the form even if it's valid
-}).submit();
+    return false; //don't submit the form even if it's valid
+  })
+  .last().keyup();
 </code></pre>
 
 <h2>To-Do</h2>
