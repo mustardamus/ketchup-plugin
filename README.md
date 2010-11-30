@@ -5,8 +5,8 @@ jQuery Ketchup Plugin - Tasty Form Validation
 > or `@usejquery`. This doc has live demos in `docs/index.html` Have fun!
 
 Ketchup is a small (xxx minified) jQuery Plugin that helps you to validate your forms.
-Out of the box it has (many) basic validations and a nice little bubble style. But truly this
-Plugin wants to be hacked to fit your needs. Easily write your own validations and overwrite
+Out of the box it has 18 basic validations and a bubble like style. But truly this
+Plugin wants to be hacked to fit your needs. Easily write your own validations and overwrite/extend
 the default behaviour. Bubbles are not for everyone...
 
 
@@ -14,9 +14,12 @@ Default Behavior
 ----------------
 
 If you like the style of the bubbles and all validations you need are already written
-you can get this Plugin up and running in a minute.
+you can get this Plugin up and running like so:
 
 ### Your HTML Header
+
+Include the default stylesheet (located in `css/` in this package) and the bundled and minified Plugin
+along with the latest jQuery version in your HTML header.
 
     <!DOCTYPE html>
     <html>
@@ -26,9 +29,8 @@ you can get this Plugin up and running in a minute.
 
         <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" />
 
-        <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery.ketchup.js"></script>
-        <script type="text/javascript" src="js/jquery.ketchup.validations.js"></script>
+        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery.ketchup.all.min.js"></script>
       </head>
 
       <body>
@@ -36,9 +38,9 @@ you can get this Plugin up and running in a minute.
 
 ### Your HTML
 
-By default Ketchup checks the data-validate attribute of form fields if it can find matching and
-existing validations. The default indicator for validations is validate(), all validations
-go in there and are seperated by comma. Validations can have arguments, also seperated by comma.
+By default Ketchup checks the `data-validate` attribute of form fields if it can find matching
+validations. The default indicator for validations is `validate()`, all validations
+go in there and are separated by comma. Validations can have arguments, also separated by comma.
 
     <form id="default-behavior" action="index.html">
       <ul>
@@ -51,9 +53,6 @@ go in there and are seperated by comma. Validations can have arguments, also sep
           <input type="text" id="db-username" data-validate="validate(required, username, minlength(3))" />
         </li>
         <li>
-          <input type="radio" id="test" data-validate="validate(required)" />
-        </li>
-        <li>
           <input type="submit" value="Is Tasty?" />
         </li>
       </ul>
@@ -61,7 +60,7 @@ go in there and are seperated by comma. Validations can have arguments, also sep
 
 ### Your Javascript
 
-Just call ketchup() on your form, voilà. Form validation baby!
+Just call `ketchup()` on your form, voilà.
 
     $('#default-behavior').ketchup();
 
@@ -69,15 +68,16 @@ Just call ketchup() on your form, voilà. Form validation baby!
 Declare fields to validate in the call
 --------------------------------------
 
-The last version of Ketchup looked in class attributes for validations. Some people said that
-this is abusive and they would never stick (pseudo) code in their classes. With the HTML5
-data- attributes we don't have that problem. We can set whatever we want and be total valid.
-However, if you still want to seperate the validations declarations from our markup you can do so
-by passing an object with jQuery selectors as key and validations as value to Ketchup.
+The last version of Ketchup checked the `class` attribute for validations... which was not everyones taste
+because `class` should be used for defining CSS classes. In HTML5 we have the `data-` attributes for the rescue
+to set custom data.
+
+However, if you still want to separate the validations declarations from your markup you can do so
+by passing an object with jQuery selectors as keys and validations as values to Ketchup.
 
 ### Your HTML
 
-Note that required is not a validation declaration but an actual class name. We use that to
+Note that `required` is not a validation declaration but an actual class name. We use that to
 select the fields to validate.
 
     <form id="fields-in-call" action="index.html">
@@ -98,9 +98,9 @@ select the fields to validate.
 
 ### Your Javascript
 
-Right after the options (empty here) we pass in an object. Use the key to declare the jQuery
+Right after the options (empty here `{}`) we pass in an object. Use the key to declare the jQuery
 selector on which fields the validations in the value are processed.
-If you declare fields like this you can left out the validations indicator.
+Validations declared like this don't need the `validate()` indicator.
 
     $('#fields-in-call').ketchup({}, {
       '.required'    : 'required',    //all fields in the form with the class 'required'
@@ -111,20 +111,19 @@ If you declare fields like this you can left out the validations indicator.
 Validate on different events
 ----------------------------
 
-By default Ketchup listens to the blur event on form fields. You can overwrite that behaviour
-for every fields in the options, or you can overwrite it per form field.
+By default Ketchup listens to the `blur` event on form fields. You can overwrite that behaviour
+for every field in the options, and you can overwrite it separately for a single field.
 
 ### Your HTML
 
-In the data-validate attribute (you can choose which attribute can contain validations via the
-options) you have the on() indicator. Events go in there and are seperated by a space. These
-are strings jQuery's bind() accepts.
+In the `data-validate` attribute you can have a `on()` indicator. Events go in there and are separated by a space. These
+are strings jQuery's `bind()` accepts.
 
     <form id="validation-events" action="index.html">
       <ul>
         <li>
           <label for="ve-username">Username</label>
-          <input type="text" id="ve-username" data-validate="huha(required, minlength(3)) on(keyup focus)" />
+          <input type="text" id="ve-username" data-validate="validate(required, minlength(3)) on(keyup focus)" />
         </li>
         <li>
           <input type="submit" value="Is Tasty?" />
@@ -135,29 +134,29 @@ are strings jQuery's bind() accepts.
 ### Your Javascript
 
     $('#validation-events').ketchup({
-      validateEvents: 'dblclick',
-      validateIndicator:'huha'
+      validateEvents: 'dblclick'
     });
 
     /*if you set the fields to validate in the call
-      you simply passin a array as value. First argument
-      is the validations string and the second are the
-      events. Like so:
+      you  simply pass  in a array as value.  First
+      argument is  the validations string  and  the
+      second is the events string. Like so:
 
     $('#validation-events').ketchup({}, {
       '#ve-username': ['required, minlength(3)', 'keyup focus']
     });*/
     
     
-Write your own validation
--------------------------
+Write your own validations
+--------------------------
 
-Now to the real fun part, hacking instead of just calling! You can write your own validation
-functions for Ketchup. A validation function must return a boolean, true if the field validates
-fine and false if it fails to validate. Validations are called with at least three arguments:
+You can write your own validation functions for Ketchup. A validation function must return a
+boolean, true if the field validates fine and false if it fails to validate.
+Validations are called with at least three arguments:
 
- * form - the jQuery object for the form
- * el - the jQuery object for the form field
+ * `form`  - the jQuery object for the form (we validate in this form)
+ * `el`    - the jQuery object for the form field (we validate on this field)
+ * `value` - the value of the for field (short for `el.val()`) 
 
 ### Your HTML
 
@@ -399,6 +398,8 @@ To-Do
  * Finish docs
  * Style docs
  * Add navigation to html docs
+ * Docs about validation init callback
+ * Exclusive data- field (no `valdate()`) - by default, extra chapter with validate indicator (old `class`).
 
 
 Default Options
