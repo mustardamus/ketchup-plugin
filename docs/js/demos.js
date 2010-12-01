@@ -45,18 +45,10 @@ $(document).ready(function() {
     }
   });
   
-
-/*  var hideAll = function() { $('#wrapper > *:not(h2, .demo)').hide(); };
   
-  $(window).keyup(function(event) {
-    switch(event.keyCode) {
-      case 17: //hide all elements except h2 and .demo on ctrl
-        hideAll();
-        break;
-      case 18: //hide elements and submit all forms on alt
-        hideAll();
-        $('form').submit();
-        break;
-    }
-  });*/
+  $('<a/>', {
+    'class': 'fork',
+    href   : 'https://github.com/mustardamus/ketchup-plugin',
+    html   : '<img src="images/forkme.png" alt="Fork Me!" />'
+  }).appendTo('body');
 });

@@ -294,6 +294,23 @@ Control the behavior of the error container
 
 You can overwrite the behavior for the entire plugin or for a single form.
 
+### Your CSS
+
+    .ketchup-custom {
+      line-height: 1em;
+    }
+
+    .ketchup-custom li {
+      font-size: 10px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 0 #9F4631;
+      border: 0;
+      color: white;
+      background: #F46644;
+      padding: 1px 10px;
+      margin-top: 1px;
+    }
+
 ### Your HTML
 
     <form id="custom-behavior" action="index.html">

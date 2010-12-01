@@ -21,9 +21,28 @@ ul { font-size: 1.4em; padding: 0 0 18px 30px; line-height: 1.6em; list-style: d
     li:first-child { border-top: none; }
   }
   
-  #fo-errors { position: absolute; width: 250px; top: 50px; left: 200px;
-    li { border: 0; padding: 2px 6px; }
-    li.valid { background: green; }
-    li.invalid { background: red; }
+  #fo-errors { position: absolute; width: 250px; top: 50px; left: 200px; box-shadow: 0 0 3px #333; -moz-box-shadow: 0 0 3px #333; -webkit-box-shadow: 0 0 3px #333;
+    li { border: 0; padding: 2px 6px; color: white; }
+    li.valid { background: #8AB600; text-shadow: 1px 1px 0 #485F00; }
+    li.invalid { background: #F46644; text-shadow: 1px 1px 0 #9F4631; }
   }
+  
+  .ketchup-custom {
+    line-height: 1em;
+  }
+  
+  .ketchup-custom li {
+    font-size: 10px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 #9F4631;
+    border: 0;
+    color: white;
+    background: #F46644;
+    padding: 1px 10px;
+    margin-top: 1px;
+  }
+}
+
+.fork { position: absolute; top: 0; right: 0;
+  img { border: 0; }
 }

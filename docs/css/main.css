@@ -78,10 +78,37 @@ ul {
   width: 250px;
   top: 50px;
   left: 200px;
+  box-shadow: 0 0 3px #333333;
+  -moz-box-shadow: 0 0 3px #333333;
+  -webkit-box-shadow: 0 0 3px #333333;
 }
 .demo #fo-errors li {
   border: 0;
   padding: 2px 6px;
+  color: white;
 }
-.demo #fo-errors li.valid { background: green; }
-.demo #fo-errors li.invalid { background: red; }
+.demo #fo-errors li.valid {
+  background: #8ab600;
+  text-shadow: 1px 1px 0 #485f00;
+}
+.demo #fo-errors li.invalid {
+  background: #f46644;
+  text-shadow: 1px 1px 0 #9f4631;
+}
+.demo .ketchup-custom { line-height: 1em; }
+.demo .ketchup-custom li {
+  font-size: 10px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 #9f4631;
+  border: 0;
+  color: white;
+  background: #f46644;
+  padding: 1px 10px;
+  margin-top: 1px;
+}
+.fork {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.fork img { border: 0; }

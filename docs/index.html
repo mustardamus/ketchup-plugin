@@ -164,6 +164,8 @@ $('#validation-events').ketchup({}, {
 });*/
 </code></pre>
 
+<h2>Included Validations</h2>
+
 <h2>Write your own validations</h2>
 
 <p>You can write your own validation functions for Ketchup. A validation function must return a
@@ -308,6 +310,26 @@ Note that only declared validation messages gets overwritten, the others are sti
 </code></pre>
 
 <h2>Control the behavior of the error container</h2>
+
+<p>You can overwrite the behavior for the entire plugin or for a single form.</p>
+
+<h3>Your CSS</h3>
+
+<pre><code>.ketchup-custom {
+  line-height: 1em;
+}
+
+.ketchup-custom li {
+  font-size: 10px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 #9F4631;
+  border: 0;
+  color: white;
+  background: #F46644;
+  padding: 1px 10px;
+  margin-top: 1px;
+}
+</code></pre>
 
 <h3>Your HTML</h3>
 
