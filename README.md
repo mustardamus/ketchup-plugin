@@ -145,6 +145,11 @@ are strings jQuery's `bind()` accepts.
     $('#validation-events').ketchup({}, {
       '#ve-username': ['required, minlength(3)', 'keyup focus']
     });*/
+
+
+Included Validations
+--------------------
+
     
     
 Write your own validations
@@ -287,6 +292,8 @@ Note that only declared validation messages gets overwritten, the others are sti
 Control the behavior of the error container
 -------------------------------------------
 
+You can overwrite the behavior for the entire plugin or for a single form.
+
 ### Your HTML
 
     <form id="custom-behavior" action="index.html">
@@ -311,10 +318,7 @@ Control the behavior of the error container
     
     .createErrorContainer(function(form, el) {
       return $('<ul/>', {
-               css: {
-                 display: 'none',
-                 margin : 10,
-               }
+               'class': 'ketchup-custom'
              }).insertAfter(el);
     })
     
@@ -323,16 +327,7 @@ Control the behavior of the error container
       
       for(i = 0; i < messages.length; i++) {
         $('<li/>', {
-          text: messages[i],
-          css : {
-            fontSize    : 10,
-            textTransform: 'uppercase',
-            background  : '#E44100',
-            textShadow  : '1px 1px 0 #BF3600',
-            color       : 'white',
-            padding     : '3px 10px',
-            marginBottom: 2
-          }
+          text: messages[i]
         }).appendTo(container);
       }
     })
@@ -393,8 +388,6 @@ Check if the form and fields are valid from outside
             text   : '#' + el.attr('id') + ' is ' + valid
           }).appendTo(result);
         });
-      
-        return false; //don't submit the form even if it's valid
       })
       .last().keyup();
 
@@ -402,11 +395,11 @@ Check if the form and fields are valid from outside
 To-Do
 -----
  * Rewrite fieldsFrom* methods
- * Trigger events
+ * Trigger events (fieldIsInvalid fieldIsValid formIs...)
  * Docs for Helpers
  * Finish docs
  * Style docs
- * Add navigation to html docs
+ * Add navigation/fork-me to html docs
  * Docs about validation init callback
  * Get rid of validate() indicator, events in extra attribute
 

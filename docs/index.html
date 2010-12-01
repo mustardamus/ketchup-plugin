@@ -334,10 +334,7 @@ Note that only declared validation messages gets overwritten, the others are sti
 
 .createErrorContainer(function(form, el) {
   return $('&lt;ul/&gt;', {
-           css: {
-             display: 'none',
-             margin : 10,
-           }
+           'class': 'ketchup-custom'
          }).insertAfter(el);
 })
 
@@ -346,16 +343,7 @@ Note that only declared validation messages gets overwritten, the others are sti
 
   for(i = 0; i &lt; messages.length; i++) {
     $('&lt;li/&gt;', {
-      text: messages[i],
-      css : {
-        fontSize    : 10,
-        textTransform: 'uppercase',
-        background  : '#E44100',
-        textShadow  : '1px 1px 0 #BF3600',
-        color       : 'white',
-        padding     : '3px 10px',
-        marginBottom: 2
-      }
+      text: messages[i]
     }).appendTo(container);
   }
 })
@@ -416,8 +404,6 @@ form
         text   : '#' + el.attr('id') + ' is ' + valid
       }).appendTo(result);
     });
-
-    return false; //don't submit the form even if it's valid
   })
   .last().keyup();
 </code></pre>
@@ -426,13 +412,13 @@ form
 
 <ul>
 <li>Rewrite fieldsFrom* methods</li>
-<li>Trigger events</li>
+<li>Trigger events (fieldIsInvalid fieldIsValid formIs...)</li>
 <li>Docs for Helpers</li>
 <li>Finish docs</li>
 <li>Style docs</li>
-<li>Add navigation to html docs</li>
+<li>Add navigation/fork-me to html docs</li>
 <li>Docs about validation init callback</li>
-<li>Exclusive data- field (no <code>valdate()</code>) - by default, extra chapter with validate indicator (old <code>class</code>).</li>
+<li>Get rid of validate() indicator, events in extra attribute</li>
 </ul>
 
 
