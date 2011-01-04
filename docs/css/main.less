@@ -1,5 +1,5 @@
 html { font-size: 16px; }
-body { font-size: 62.5%; font-family: Helvetica, "Helvetica Neue", Arial, sans-serif; color: #333; background: white; text-align: center; background: url(../images/bg.jpg) no-repeat top left fixed #eee; padding: 10px 0; }
+body { font-size: 62.5%; font-family: Helvetica, "Helvetica Neue", Arial, sans-serif; color: #333; text-align: center; background: url(../images/bg.jpg) no-repeat top left fixed white; padding: 10px 0; }
 
 #wrapper { margin: 0 auto; width: 800px; text-align: left; background: white; background: rgba(255, 255, 255, 0.8); box-shadow: 0 0 5px #ddd; -moz-box-shadow: 0 0 5px #ddd; -webkit-box-shadow: 0 0 5px #ddd; }
 
@@ -22,4 +22,9 @@ p code, ul code, ol code { color: #111; }
 
 blockquote { color: #aaa; border-left: 3px solid #aaa; margin: 0 0 14px 66px; padding: 7px 14px 7px 8px; }
 
-.demo { background: #FFFCE8; padding: 14px 28px; border-top: 1px solid #FFE0BB; font-size: 1.3em; }
+.demo { background: #FFFCE8; padding: 14px 28px; border-top: 1px solid #FFE0BB; font-size: 1.3em;
+  ul { list-style: none; margin: 0; padding: 0; line-height: 34px; font-size: 1em;
+    label { display: block; cursor: pointer; }
+    input[type="submit"] { cursor: pointer; }
+  }
+}

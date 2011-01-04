@@ -28,12 +28,12 @@ the default behaviour. Bubbles are not for everyone...</p>
 
 <h2>Default Behavior</h2>
 
-<p>If you like the style of the bubbles and all validations you need are already written
+<p>If you like the style of the bubbles and all validations you need are already included
 you can get this Plugin up and running like so:</p>
 
 <h3>Your HTML Header</h3>
 
-<p>Include the default stylesheet (located in <code>css/</code> in this package) and the bundled and minified Plugin
+<p>Include the default stylesheet (located in <code>./css/</code> in this package) and the bundled and minified Plugin
 along with the latest jQuery version in your HTML header.</p>
 
 <pre><code>&lt;!DOCTYPE html&gt;
@@ -165,6 +165,28 @@ $('#validation-events').ketchup({}, {
 </code></pre>
 
 <h2>Included Validations</h2>
+
+<ul>
+<li><code>required</code>              - The field is required.</li>
+<li><code>minlength(min)</code>        - The field must have a minimal length of <code>min</code> characters.</li>
+<li><code>maxlength(max)</code>        - The field must have a maximal length of <code>max</code> characters.</li>
+<li><code>rangelength(min, max)</code> - The field must have a length between <code>min</code> and <code>max</code> characters.</li>
+<li><code>min(min)</code>              - The field must have a minimal number of <code>min</code>.</li>
+<li><code>max(max)</code>              - The field must have a maximal number of <code>max</code>.</li>
+<li><code>range(min, max)</code>       - The field must have a number between <code>min</code> and <code>max</code>.</li>
+<li><code>number</code>                - The field must be a number.</li>
+<li><code>digits</code>                - The field must be a digit (full number).</li>
+<li><code>email</code>                 - The field must be a valid email.</li>
+<li><code>url</code>                   - The field must be a valid URL.</li>
+<li><code>username</code>              - The field must be a valid username.</li>
+<li><code>match(word)</code>           - The field must match the value <code>word</code>.</li>
+<li><code>contain(word)</code>         - The field must contain <code>word</code>.</li>
+<li><code>date</code>                  - The field must be a valid date.</li>
+<li><code>minselect(min)</code>        - At least <code>min</code> checkboxes with the same name must be selected.</li>
+<li><code>maxselect(max)</code>        - No more than <code>max</code> checkboxes with the same name must be selected.</li>
+<li><code>rangeselect(min, max)</code> - Between <code>min</code> and <code>max</code> checkboxes with the same name must be selected.</li>
+</ul>
+
 
 <h2>Write your own validations</h2>
 
@@ -436,11 +458,9 @@ form
 <li>Rewrite fieldsFrom* methods</li>
 <li>Trigger events (fieldIsInvalid fieldIsValid formIs...)</li>
 <li>Docs for Helpers</li>
-<li>Finish docs</li>
-<li>Style docs</li>
-<li>Add navigation/fork-me to html docs</li>
 <li>Docs about validation init callback</li>
 <li>Get rid of validate() indicator, events in extra attribute</li>
+<li>About checkboxes</li>
 </ul>
 
 

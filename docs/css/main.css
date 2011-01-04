@@ -3,9 +3,8 @@ body {
   font-size: 62.5%;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #333333;
-  background: white;
   text-align: center;
-  background: url(../images/bg.jpg) no-repeat top left fixed #eeeeee;
+  background: url(../images/bg.jpg) no-repeat top left fixed white;
   padding: 10px 0;
 }
 #wrapper {
@@ -79,3 +78,15 @@ blockquote {
   border-top: 1px solid #ffe0bb;
   font-size: 1.3em;
 }
+.demo ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 34px;
+  font-size: 1em;
+}
+.demo ul label {
+  display: block;
+  cursor: pointer;
+}
+.demo ul input[type="submit"] { cursor: pointer; }

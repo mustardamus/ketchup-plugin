@@ -13,12 +13,12 @@ the default behaviour. Bubbles are not for everyone...
 Default Behavior
 ----------------
 
-If you like the style of the bubbles and all validations you need are already written
+If you like the style of the bubbles and all validations you need are already included
 you can get this Plugin up and running like so:
 
 ### Your HTML Header
 
-Include the default stylesheet (located in `css/` in this package) and the bundled and minified Plugin
+Include the default stylesheet (located in `./css/` in this package) and the bundled and minified Plugin
 along with the latest jQuery version in your HTML header.
 
     <!DOCTYPE html>
@@ -150,7 +150,24 @@ are strings jQuery's `bind()` accepts.
 Included Validations
 --------------------
 
-    
+ * `required`              - The field is required.
+ * `minlength(min)`        - The field must have a minimal length of `min` characters.
+ * `maxlength(max)`        - The field must have a maximal length of `max` characters.
+ * `rangelength(min, max)` - The field must have a length between `min` and `max` characters.
+ * `min(min)`              - The field must have a minimal number of `min`.
+ * `max(max)`              - The field must have a maximal number of `max`.
+ * `range(min, max)`       - The field must have a number between `min` and `max`.
+ * `number`                - The field must be a number.
+ * `digits`                - The field must be a digit (full number).
+ * `email`                 - The field must be a valid email.
+ * `url`                   - The field must be a valid URL.
+ * `username`              - The field must be a valid username.
+ * `match(word)`           - The field must match the value `word`.
+ * `contain(word)`         - The field must contain `word`.
+ * `date`                  - The field must be a valid date.
+ * `minselect(min)`        - At least `min` checkboxes with the same name must be selected.
+ * `maxselect(max)`        - No more than `max` checkboxes with the same name must be selected.
+ * `rangeselect(min, max)` - Between `min` and `max` checkboxes with the same name must be selected.
     
 Write your own validations
 --------------------------
@@ -414,11 +431,9 @@ To-Do
  * Rewrite fieldsFrom* methods
  * Trigger events (fieldIsInvalid fieldIsValid formIs...)
  * Docs for Helpers
- * Finish docs
- * Style docs
- * Add navigation/fork-me to html docs
  * Docs about validation init callback
  * Get rid of validate() indicator, events in extra attribute
+ * About checkboxes
 
 
 Default Options
