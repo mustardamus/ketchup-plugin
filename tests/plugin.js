@@ -1,4 +1,14 @@
 $(document).ready(function() {
+  module('Plugin Tests');
+  
+  test('Returns a jQuery Object (is chainable)', function() {
+    var body = $('body');
+    
+    equals(typeof body.ketchup().data('chainable', true), 'object', 'Is a Object');
+    equals(body.data('chainable'), true, 'Body has "chainable" data.');
+  });
+  
+  
   module('Internal Functions');
   
   test('Add Validations', function() {

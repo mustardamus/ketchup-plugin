@@ -1,6 +1,7 @@
 $(document).ready(function() {
   var extractCodeSegments = function(codeHeaders) {
-    var headers = [
+    var ret     = {},
+        headers = [
                     {
                       name: 'html',
                       text: 'Your HTML'
@@ -8,23 +9,26 @@ $(document).ready(function() {
                     {
                       name: 'js',
                       text: 'Your Javascript'
+                    },
+                    {
+                      name: 'css',
+                      text: 'Your CSS'
                     }
-                  ],
-        ret     = {};
+                  ];
     
     for(i = 0; i < headers.length; i++) {
       var codeHeader = codeHeaders.filter(function() { return $(this).text() == headers[i].text; }),
-          code       = codeHeader.next(),
-          name       = headers[i].name;
+          code       = codeHeader.next();
 
       if(code.length) {
         if(code.get(0).nodeName.toLowerCase() == 'p') {
           code = code.next();
         }
 
-        ret[name]         = {};
-        ret[name].element = code;
-        ret[name].code    = code.children().text();
+        ret[headers[i].name] = {
+          element: code,
+          code   : code.children().text()
+        };
       }
     }
     
@@ -33,22 +37,22 @@ $(document).ready(function() {
   
   $('h2').each(function() {
     var codeHeaders = $(this).nextUntil('h2').filter('h3'),
-        codes       = extractCodeSegments(codeHeaders);
-    
+        codes       = extractCodeSegments(codeHeaders),
+        header      = $('head');
+
     if(codes.js && codes.html) {
+      if(codes.css) {
+        header.append('<style type="text/css">' + codes.css.code + '</style>');
+      }
+      
+      var heading = $('<h3/>', { text: 'Demo' }).insertAfter(codes.js.element);
+      
       $('<div/>', {
         'class': 'demo',
         html: codes.html.code
-      }).insertAfter(codes.js.element);
+      }).insertAfter(heading);
 
       good(codes.js.code);
     }
   });
-  
-  
-  $('<a/>', {
-    'class': 'fork',
-    href   : 'https://github.com/mustardamus/ketchup-plugin',
-    html   : '<img src="images/forkme.png" alt="Fork Me!" />'
-  }).appendTo('body');
 });

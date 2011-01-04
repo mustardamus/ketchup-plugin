@@ -1,0 +1,169 @@
+require 'rdiscount'
+require 'zip/zip'
+require 'zip/zipfilesystem'
+require 'hpricot'
+require 'directory_watcher'
+
+
+class Scaffold < Thor
+  desc 'init', 'Rename filenames and strings in files. Remove Scaffold testing.'
+  def init
+    name  = ask("How do you want to name your new Plugin? Lowercase, one word and something kewl please:\n>")
+    files = [
+      { :filename => '../jquery.scaffold.js', :renames => [{ :from => 'scaffold', :to => name }]},
+      { :filename => '../docs/index.html', :renames => [
+                                             { :from => 'jquery.scaffold.js', :to => "jquery.#{name}.js" },
+                                             { :from => 'Scaffold', :to => name.capitalize }
+                                           ]},
+      { :filename => '../tests/index.html', :renames => [
+                                              { :from => 'jquery.scaffold.js', :to => "jquery.#{name}.js" },
+                                              { :from => 'Scaffold', :to => name.capitalize },
+                                              { :from => '<script type="text/javascript" src="scaffold.js"></script>', :to => '' },
+                                              { :from => '<script type="text/javascript" src="../docs/js/scaffold.js"></script>', :to => '' }
+                                            ]},
+      { :filename => '../tests/plugin.js', :renames => [{ :from => 'scaffold()', :to => "#{name}()" }]}
+    ]
+    
+    files.each do |file|
+      content = File.open(file[:filename]).read
+      
+      file[:renames].each do |ren|
+        content = content.gsub(ren[:from], ren[:to])
+        say "Renamed '#{ren[:from]}' to '#{ren[:to]}' in #{file[:filename]}."
+      end
+      
+      File.open(file[:filename], 'w').write(content)
+    end
+    
+    FileUtils.mv '../jquery.scaffold.js', "../jquery.#{name}.js"
+    say "Renamed the Plugin File '../jquery.scaffold.js' to '../jquery.#{name}.js'."
+    
+    FileUtils.rm '../tests/scaffold.js'
+    say "Deleted the Scaffold Tests."
+    
+    File.open('../README.md', 'w').write <<-eos
+Tester! :) #{name}
+    eos
+    
+    say 'Done.', :green
+  end
+  
+  
+  desc 'docs', 'Create the HTML Docs from ../README.md in ../docs.'
+  def docs
+    md       = File.open('../README.md').read
+    rd       = RDiscount.new(md)
+    template = File.open('../docs/index.html').read
+    header   = template[0..template.index('wrapper') + 8]
+    footer   = '</div></body></html>'
+
+    File.open('../docs/index.html', 'w').write("#{header}#{rd.to_html}#{footer}")
+    say 'Done.', :green
+  end
+  
+  
+  desc 'watch', 'Watch for changes in ../README.rd and generate the docs.'
+  def watch
+    dw          = DirectoryWatcher.new '..'
+    dw.interval = 1
+    dw.glob     = 'README.md'
+    
+    dw.add_observer {|*args| args.each {|event|
+      if event.type == :modified
+        say 'README.md changed. Re-generate docs.', :green
+        %x[thor scaffold:docs]
+      end
+    }}
+
+    trap("SIGINT") do
+      dw.stop
+      exit
+    end
+
+    dw.start
+
+    sleep 60 while true
+  end
+  
+  
+  desc 'standalone', 'Build standalone HTML Docs.'
+  def standalone
+    tmpdocs_path = '../tmp/docs'
+    docs_path    = '../docs'
+    doc          = Hpricot(open("#{docs_path}/index.html"))
+    dependencies = [
+      { :tag => 'link',   :type => 'text/css',        :link => 'href' },
+      { :tag => 'script', :type => 'text/javascript', :link => 'src'  }
+    ]
+    
+    begin
+      FileUtils.mkdir_p tmpdocs_path
+      FileUtils.rm_rf tmpdocs_path
+      FileUtils.cp_r docs_path, tmpdocs_path
+    rescue
+    end
+
+    dependencies.each do |dep|
+      (doc/"head/#{dep[:tag]}").each do |tag|
+        if tag[:type] == dep[:type]
+          filepath = tag[dep[:link]]
+          
+          if filepath.include?('..') && !filepath.include?('http://')
+            src_path  = "#{docs_path}/#{filepath}"
+            dest_path = "#{tmpdocs_path}/"
+            filename  = filepath.split('/').last
+            
+            case filename.split('.').last
+            when 'js'
+              dest_path += 'js'
+            when 'css'
+              dest_path += 'css'
+            when 'png' || 'jpg' || 'jpeg'
+              dest_path += 'images'
+            else
+              dest_path += 'assets'
+            end
+
+            begin
+              FileUtils.mkdir dest_path
+            rescue
+            end
+
+            dest_path      += "/#{filename}"
+            tag[dep[:link]] = dest_path.gsub("#{tmpdocs_path}/", '')
+
+            FileUtils.cp src_path, dest_path
+            say "#{src_path} \t\t >> #{dest_path}"
+          end
+        end
+      end
+    end
+    
+    File.open("#{tmpdocs_path}/index.html", "w").write(doc.to_s)
+    say "Done. Check tmp/docs/ path.", :green
+  end
+  
+  
+  desc 'pack', 'Pack the standalone HTML Docs.'
+  def pack
+    src_path = '../tmp/docs/'
+    archive  = "../tmp/#{ask('Name of the archive (*.zip):')}.zip"
+    
+    unless test ?d, src_path
+      say 'Standalone docs are not generated yet. Generating them now.', :red
+      invoke :standalone
+    end
+
+    FileUtils.rm_f archive
+    say "Creating: #{archive}"
+
+    Zip::ZipFile.open(archive, 'w') do |zipfile|
+      Dir["#{src_path}**/**"].reject{ |f| f == archive }.each do |file|
+        zipfile.add(file.sub(src_path, ''), file)
+        say "Packing: #{file}"
+      end
+    end
+    
+    say 'Done.', :green
+  end
+end
