@@ -168,14 +168,15 @@ Included Validations
  * `minselect(min)`        - At least `min` checkboxes with the same name must be selected.
  * `maxselect(max)`        - No more than `max` checkboxes with the same name must be selected.
  * `rangeselect(min, max)` - Between `min` and `max` checkboxes with the same name must be selected.
-    
+
+
 Write your own validations
 --------------------------
 
 You can write your own validation functions for Ketchup. A validation function must return a
-boolean, true if the field validates fine and false if it fails to validate.
+boolean, `true` if the field validates fine and `false` if it fails to validate.
 
-Validations are called with at least three arguments:
+Validations pass in at least three arguments:
 
  * `form`  - the jQuery object for the form (we validate in this form)
  * `el`    - the jQuery object for the form field (we validate on this field)
@@ -301,7 +302,7 @@ to `helper()`.
 Set the messages for your validations
 -------------------------------------
 
-In the examples above we set the message for the validations directly as second argument in the `validate`
+In the examples above we set the message for the validations directly as second argument in the `validate()`
 function. This is not necessary. If you want to seperate the messages from the validation code you have
 two choices.
 
@@ -321,7 +322,31 @@ Note that only declared validation messages gets overwritten, the others are sti
 Control the behavior of the error container
 -------------------------------------------
 
-You can overwrite the behavior for the entire plugin or for a single form.
+Time to control the behavior and the style of the error container. Several functions can be overwritten leaving
+creating, showing and hiding the error container and add error messages completely up to you.
+
+ * `createErrorContainer(function(form, el) {})`
+ 
+   This function creates the error container one time. `form` is the form we are currently in and `el` the element
+   we are currently validating. It must return a jQuery object of the error container.
+   
+ * `showErrorContainer(function(form, el, container) {})`
+ 
+   This function shows the error container every time the field `el` fails to validate.
+   `form` is the form we are currently in and `el` the element we are currently validating.
+   `container` is the jQuery object of the error container, you created it with `createErrorContainer()`.
+   Must not return anything
+ 
+ * `hideErrorContainer(function(form, el, container) {})`
+ 
+   As opposite to `showErrorContainer()` this function hides the error container when the field `el` validates fine.
+   It pass in the same arguments as `showErrorContainer()` and must not return anything.
+ 
+ * `addErrorMessages(function(form, el, container, messages) {})`
+ 
+   If the field `el` fails to validate you need to update the error messages via this function. `form`, `el` and `container`
+   are the same arguments as in `showErrorContainer()` and `hideErrorContainer()`. `messages` is a Array containing strings
+   of all error messages the field fails to validate.
 
 ### Your CSS
 
@@ -442,7 +467,6 @@ To-Do
 -----
  * Rewrite fieldsFrom* methods
  * Trigger events (fieldIsInvalid fieldIsValid formIs...)
- * Docs for Helpers
  * Docs about validation init callback
  * Get rid of validate() indicator, events in extra attribute
  * About checkboxes

@@ -191,9 +191,9 @@ $('#validation-events').ketchup({}, {
 <h2>Write your own validations</h2>
 
 <p>You can write your own validation functions for Ketchup. A validation function must return a
-boolean, true if the field validates fine and false if it fails to validate.</p>
+boolean, <code>true</code> if the field validates fine and <code>false</code> if it fails to validate.</p>
 
-<p>Validations are called with at least three arguments:</p>
+<p>Validations pass in at least three arguments:</p>
 
 <ul>
 <li><code>form</code>  - the jQuery object for the form (we validate in this form)</li>
@@ -325,7 +325,7 @@ $('#own-helper').ketchup();
 
 <h2>Set the messages for your validations</h2>
 
-<p>In the examples above we set the message for the validations directly as second argument in the <code>validate</code>
+<p>In the examples above we set the message for the validations directly as second argument in the <code>validate()</code>
 function. This is not necessary. If you want to seperate the messages from the validation code you have
 two choices.</p>
 
@@ -345,7 +345,31 @@ Note that only declared validation messages gets overwritten, the others are sti
 
 <h2>Control the behavior of the error container</h2>
 
-<p>You can overwrite the behavior for the entire plugin or for a single form.</p>
+<p>Time to control the behavior and the style of the error container. Several functions can be overwritten leaving
+creating, showing and hiding the error container and add error messages completely up to you.</p>
+
+<ul>
+<li><p><code>createErrorContainer(function(form, el) {})</code></p>
+
+<p>This function creates the error container one time. <code>form</code> is the form we are currently in and <code>el</code> the element
+we are currently validating. It must return a jQuery object of the error container.</p></li>
+<li><p><code>showErrorContainer(function(form, el, container) {})</code></p>
+
+<p>This function shows the error container every time the field <code>el</code> fails to validate.
+<code>form</code> is the form we are currently in and <code>el</code> the element we are currently validating.
+<code>container</code> is the jQuery object of the error container, you created it with <code>createErrorContainer()</code>.
+Must not return anything</p></li>
+<li><p><code>hideErrorContainer(function(form, el, container) {})</code></p>
+
+<p>As opposite to <code>showErrorContainer()</code> this function hides the error container when the field <code>el</code> validates fine.
+It pass in the same arguments as <code>showErrorContainer()</code> and must not return anything.</p></li>
+<li><p><code>addErrorMessages(function(form, el, container, messages) {})</code></p>
+
+<p>If the field <code>el</code> fails to validate you need to update the error messages via this function. <code>form</code>, <code>el</code> and <code>container</code>
+are the same arguments as in <code>showErrorContainer()</code> and <code>hideErrorContainer()</code>. <code>messages</code> is a Array containing strings
+of all error messages the field fails to validate.</p></li>
+</ul>
+
 
 <h3>Your CSS</h3>
 
@@ -469,7 +493,6 @@ form
 <ul>
 <li>Rewrite fieldsFrom* methods</li>
 <li>Trigger events (fieldIsInvalid fieldIsValid formIs...)</li>
-<li>Docs for Helpers</li>
 <li>Docs about validation init callback</li>
 <li>Get rid of validate() indicator, events in extra attribute</li>
 <li>About checkboxes</li>
