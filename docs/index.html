@@ -56,7 +56,9 @@ along with the latest jQuery version in your HTML header.</p>
 
 <p>By default Ketchup checks the <code>data-validate</code> attribute of form fields if it can find matching
 validations. The default indicator for validations is <code>validate()</code>, all validations
-go in there and are separated by comma. Validations can have arguments, also separated by comma.</p>
+go in there and are separated by comma. Validations can have arguments, also separated by comma.
+<strong>About checkboxes</strong>: You only need to declare the validations on one checkbox. Ketchup binds all other
+checkboxes with the same name automatically.</p>
 
 <pre><code>&lt;form id="default-behavior" action="index.html"&gt;
   &lt;ul&gt;
@@ -529,7 +531,6 @@ form
 <li>Rewrite fieldsFrom* methods</li>
 <li>Trigger events (fieldIsInvalid fieldIsValid formIs...)</li>
 <li>Get rid of validate() indicator, events in extra attribute</li>
-<li>About checkboxes</li>
 </ul>
 
 
