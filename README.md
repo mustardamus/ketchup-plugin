@@ -68,7 +68,7 @@ Just call `ketchup()` on your form, voilà.
 Declare fields to validate in the call
 --------------------------------------
 
-The last version of Ketchup checked the `class` attribute for validations... which was not everyones taste
+The last version Ketchup checked the `class` attribute for validations... which was not everyones taste
 because `class` should be used for defining CSS classes. In HTML5 we have the `data-` attributes for the rescue
 to set custom data.
 
@@ -103,8 +103,8 @@ selector on which fields the validations in the value are processed.
 Validations declared like this don't need the `validate()` indicator.
 
     $('#fields-in-call').ketchup({}, {
-      '.required'    : 'required',    //all fields in the form with the class 'required'
-      '#fic-username': 'minlength(3)' //one field in the form with the id 'fic-username'
+      '.required'    : 'required',              //all fields in the form with the class 'required'
+      '#fic-username': 'username, minlength(3)' //one field in the form with the id 'fic-username'
     });
     
 
@@ -310,7 +310,7 @@ Either overwrite single messages:
 
     $.ketchup.message('word', 'Guess the word!');
 
-Or pass in an object to the messages method (You can copy and paste them from the last version of Ketchup).
+Or pass in an object to the `messages()` method (you can copy and paste them from the last version of Ketchup).
 Note that only declared validation messages gets overwritten, the others are still set.
 
     $.ketchup.messages({
@@ -352,6 +352,7 @@ creating, showing and hiding the error container and add error messages complete
 
     .ketchup-custom {
       line-height: 1em;
+      display: none;
     }
 
     .ketchup-custom li {
@@ -419,6 +420,27 @@ creating, showing and hiding the error container and add error messages complete
 Check if the form and fields are valid from outside
 ---------------------------------------------------
 
+You can use Ketchup's internal function to check if a form or a field is valid from your own script without
+triggering the validation container. `el.ketchup('isValid')` returns `true` if the form/field (`el`) is valid,
+otherwise it returns `false`.
+
+If you want to trigger the validation from your script use `el.ketchup('validate')` where `el` is the field.
+
+### Your CSS
+    #from-outside { position: relative; }
+    
+    #fo-errors {
+      position: absolute;
+      top: 30px;
+      left: 200px;
+    }
+    
+    #fo-errors li { padding: 0 10px; margin-bottom: 1px; }
+    #fo-errors .valid { background: #9ADF61; }
+    #fo-errors .invalid { background: #F46644; }
+    
+    #from-outside .ketchup-custom { position: absolute; left: -30000px; } /* hide ketchup errors on blur and form submit */
+
 ### Your HTML
 
     <form id="from-outside" action="index.html">
@@ -438,16 +460,14 @@ Check if the form and fields are valid from outside
     </form>
 
 ### Your Javascript
-     
+    
     var form     = $('#from-outside'),
         mail     = $('#fo-mail', form),
         username = $('#fo-username', form),
         result   = $('<ul/>', { id: 'fo-errors' }).appendTo(form);
     
     form
-      .ketchup({
-        validateEvents: 'none'
-      })
+      .ketchup()
       .find('input').keyup(function() {
         result.html('');
       
