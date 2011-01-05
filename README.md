@@ -53,6 +53,13 @@ go in there and are separated by comma. Validations can have arguments, also sep
           <input type="text" id="db-username" data-validate="validate(required, username, minlength(3))" />
         </li>
         <li>
+          <label for="db-skill">Skills</label>
+          <input type="checkbox" id="db-skill" name="db-skill" data-validate="validate(minselect(2))" /> jQuery
+          <input type="checkbox" name="db-skill" /> HTML
+          <input type="checkbox" name="db-skill" /> CSS
+          <input type="checkbox" name="db-skill" /> Rails
+        </li>
+        <li>
           <input type="submit" value="Is Tasty?" />
         </li>
       </ul>

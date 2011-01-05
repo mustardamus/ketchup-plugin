@@ -467,7 +467,7 @@
         this.defaults.showErrorContainer = form;
         return this;
       } else {        
-        container.animate({
+        container.show().animate({
           top    : el.offset().top - container.height(),
           opacity: 1
         }, 'fast');
@@ -483,7 +483,9 @@
         container.animate({
           top    : el.offset().top,
           opacity: 0
-        }, 'fast');
+        }, 'fast', function() {
+          container.hide();
+        });
       }
     },
     
