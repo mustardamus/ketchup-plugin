@@ -238,11 +238,19 @@ $('#own-validation').ketchup();
 
 <h2>Helpers for your validations</h2>
 
-<p>this in your validations represents helper methods you can declare.</p>
+<p>Helpers are repeating functions you can use in your validations via <code>this</code>.</p>
 
 <ul>
-<li>list of</li>
-<li>helpers here</li>
+<li><code>isNumber(value)</code> - Check if the <code>value</code> is a valid number. Returns <code>true</code>/<code>false</code>.</li>
+<li><code>contains(value, word)</code> - Check if the <code>value</code> contains <code>word</code>. Returns <code>true</code>/<code>false</code>.</li>
+<li><code>isEmail(value)</code> - Check if the <code>value</code> is a valid email. Returns <code>true</code>/<code>false</code>.</li>
+<li><code>isUrl(value)</code> - Check if the <code>value</code> is a valid URL. Returns <code>true</code>/<code>false</code>.</li>
+<li><code>isUsername(value)</code> - Check if the <code>value</code> is a valid username. Returns <code>true</code>/<code>false</code>.</li>
+<li><code>isDate(value)</code> - Check if the <code>value</code> is a valid date. Returns <code>true</code>/<code>false</code>.</li>
+<li><code>inputsWithName(form, el)</code> - Get all elements in the <code>form</code> with the name of <code>el</code>. Returns a jQuery object.</li>
+<li><code>inputsWithNameNotSelf(form, el)</code> - Get all elements in the <code>form</code> with the name of <code>el</code> but not itself. Returns a jQuery object.</li>
+<li><code>getKetchupEvents(el)</code> - Get all events Ketchup has used on the <code>el</code>. Returns a String.</li>
+<li><code>bindBrothers(form, el)</code> - Bind all elements in the <code>form</code> with <code>el</code>'s name to <code>el</code>'s Ketchup events. This is helpful on checkboxes and co. Returns <code>undefined</code>.</li>
 </ul>
 
 
@@ -264,7 +272,7 @@ $('#own-validation').ketchup();
 <h3>Your Javascript</h3>
 
 <pre><code>$.ketchup.validation('ketchupEmail', 'Must be a valid e-mail and contain "ketchup"', function(form, el, value) {
-  if(this.isEmail(value) &amp;&amp; value.toLowerCase().indexOf('ketchup') != -1) {
+  if(this.isEmail(value) &amp;&amp; this.contains(value.toLowerCase(), 'ketchup')) {
     return true;
   } else {
     return false;
@@ -275,6 +283,9 @@ $('#validation-helper').ketchup();
 </code></pre>
 
 <h2>Write your own helpers</h2>
+
+<p>Of course you can extend helpers too. Pass a helper name and the actual helper function with the arguments
+to <code>helper()</code>.</p>
 
 <h3>Your HTML</h3>
 
@@ -314,15 +325,16 @@ $('#own-helper').ketchup();
 
 <h2>Set the messages for your validations</h2>
 
-<p>As seen above the message can be set when you add the validaion. You can seperate the messages from the
-validations in two ways.</p>
+<p>In the examples above we set the message for the validations directly as second argument in the <code>validate</code>
+function. This is not necessary. If you want to seperate the messages from the validation code you have
+two choices.</p>
 
 <p>Either overwrite single messages:</p>
 
 <pre><code>$.ketchup.message('word', 'Guess the word!');
 </code></pre>
 
-<p>Or pass in an object to the messages method (You can copy and paste them if you changed them in the last version).
+<p>Or pass in an object to the messages method (You can copy and paste them from the last version of Ketchup).
 Note that only declared validation messages gets overwritten, the others are still set.</p>
 
 <pre><code>$.ketchup.messages({

@@ -217,10 +217,18 @@ Validation messages have `{argN}` placeholders for your arguments. `Is {arg1}` w
 Helpers for your validations
 ----------------------------
 
-this in your validations represents helper methods you can declare.
+Helpers are repeating functions you can use in your validations via `this`.
 
- * list of
- * helpers here
+ * `isNumber(value)` - Check if the `value` is a valid number. Returns `true`/`false`.
+ * `contains(value, word)` - Check if the `value` contains `word`. Returns `true`/`false`.
+ * `isEmail(value)` - Check if the `value` is a valid email. Returns `true`/`false`.
+ * `isUrl(value)` - Check if the `value` is a valid URL. Returns `true`/`false`.
+ * `isUsername(value)` - Check if the `value` is a valid username. Returns `true`/`false`.
+ * `isDate(value)` - Check if the `value` is a valid date. Returns `true`/`false`.
+ * `inputsWithName(form, el)` - Get all elements in the `form` with the name of `el`. Returns a jQuery object.
+ * `inputsWithNameNotSelf(form, el)` - Get all elements in the `form` with the name of `el` but not itself. Returns a jQuery object.
+ * `getKetchupEvents(el)` - Get all events Ketchup has used on the `el`. Returns a String.
+ * `bindBrothers(form, el)` - Bind all elements in the `form` with `el`'s name to `el`'s Ketchup events. This is helpful on checkboxes and co. Returns `undefined`.
 
 ### Your HTML
 
@@ -239,7 +247,7 @@ this in your validations represents helper methods you can declare.
 ### Your Javascript
 
     $.ketchup.validation('ketchupEmail', 'Must be a valid e-mail and contain "ketchup"', function(form, el, value) {
-      if(this.isEmail(value) && value.toLowerCase().indexOf('ketchup') != -1) {
+      if(this.isEmail(value) && this.contains(value.toLowerCase(), 'ketchup')) {
         return true;
       } else {
         return false;
@@ -251,6 +259,9 @@ this in your validations represents helper methods you can declare.
 
 Write your own helpers
 ----------------------
+
+Of course you can extend helpers too. Pass a helper name and the actual helper function with the arguments
+to `helper()`.
 
 ### Your HTML
 
@@ -290,14 +301,15 @@ Write your own helpers
 Set the messages for your validations
 -------------------------------------
 
-As seen above the message can be set when you add the validaion. You can seperate the messages from the
-validations in two ways.
+In the examples above we set the message for the validations directly as second argument in the `validate`
+function. This is not necessary. If you want to seperate the messages from the validation code you have
+two choices.
 
 Either overwrite single messages:
 
     $.ketchup.message('word', 'Guess the word!');
 
-Or pass in an object to the messages method (You can copy and paste them if you changed them in the last version).
+Or pass in an object to the messages method (You can copy and paste them from the last version of Ketchup).
 Note that only declared validation messages gets overwritten, the others are still set.
 
     $.ketchup.messages({
