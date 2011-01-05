@@ -208,6 +208,10 @@ boolean, <code>true</code> if the field validates fine and <code>false</code> if
 
 <p>Validation messages have <code>{argN}</code> placeholders for your arguments. <code>Is {arg1}</code> would become <code>Is ketchup</code>.</p>
 
+<p>A validation can have a initial callback, optionally passed in as function as the second argument. Use this to bind
+elements with the same name, checkboxes for example. Or apply a class to the field to style Ketchup enabled fields.
+The initial callback passes in two arguments, <code>form</code> and <code>el</code>. You already know what these are.</p>
+
 <h3>Your HTML</h3>
 
 <pre><code>&lt;form id="own-validation" action="index.html"&gt;
@@ -231,6 +235,8 @@ boolean, <code>true</code> if the field validates fine and <code>false</code> if
   } else {
     return false;
   }
+}, function(form, el) {
+  //initial callback, this is optional
 });
 
 $('#own-validation').ketchup();
@@ -515,7 +521,6 @@ form
 <ul>
 <li>Rewrite fieldsFrom* methods</li>
 <li>Trigger events (fieldIsInvalid fieldIsValid formIs...)</li>
-<li>Docs about validation init callback</li>
 <li>Get rid of validate() indicator, events in extra attribute</li>
 <li>About checkboxes</li>
 </ul>
