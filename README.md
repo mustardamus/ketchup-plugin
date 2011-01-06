@@ -77,7 +77,7 @@ Just call `ketchup()` on your form, voilà.
 Declare fields to validate in the call
 --------------------------------------
 
-The last version Ketchup checked the `class` attribute for validations... which was not everyones taste
+In last version Ketchup checked the `class` attribute for validations... which was not everyones taste
 because `class` should be used for defining CSS classes. In HTML5 we have the `data-` attributes for the rescue
 to set custom data.
 
@@ -500,9 +500,7 @@ If you want to trigger the validation from your script use `el.ketchup('validate
 
 To-Do
 -----
- * Rewrite fieldsFrom* methods
  * Trigger events (fieldIsInvalid fieldIsValid formIs...)
- * Get rid of validate() indicator, events in extra attribute
 
 
 Default Options

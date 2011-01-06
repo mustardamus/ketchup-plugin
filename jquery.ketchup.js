@@ -138,12 +138,12 @@
       var self      = this,
           opt       = this.options,
           dataNames = this.dataNames,
-          oValEls   = opt.validateElements,
+          valEls    = opt.validateElements,
           retArr    = [];
-          oValEls   = typeof oValEls == 'string' ? [oValEls] : oValEls;
+          valEls    = typeof valEls == 'string' ? [valEls] : valEls;
       
-      for(i = 0; i < oValEls.length; i++) {
-        var els = form.find(oValEls[i] + '[' + opt.attribute + '*=' + opt.validateIndicator + ']');
+      for(i = 0; i < valEls.length; i++) {
+        var els = form.find(valEls[i] + '[' + opt.attribute + '*=' + opt.validateIndicator + ']');
         
         els.each(function() {
           var el     = $(this),
@@ -154,16 +154,16 @@
         });
         
         retArr.push(els.get());
-      }
+      } 
       
       return this.normalizeArray(retArr);
     },
     
     
     fieldsFromObject: function(form, fields) {
-      var opt    = this.options,
+      var opt       = this.options,
           dataNames = this.dataNames,
-          retArr = [];
+          retArr    = [];
       
       for(s in fields) {
         var valString, events;
@@ -176,66 +176,75 @@
           events    = fields[s][1];
         }
         
-        var els  = form.find(s),
-            val  = els.data(dataNames.validationString),
-            eve  = els.data(dataNames.events);
+        var valEls    = form.find(s);
+            valString = this.mergeValidationString(valEls, valString);
+            events    = this.mergeEventsString(valEls, events);
         
-        if(val && eve) {
-          var eves = eve.split(' '),
-              evea = '';
-          
-          for(e = 0; e < eves.length; e++) {
-            if(events.indexOf(eves[e]) == -1) {
-              evea += ' ' + eves[e];
-            }
-          }
-          
-          events = $.trim(events + ' ' + evea);
+        valEls.data(dataNames.validationString, opt.validateIndicator + '(' + valString + ')')
+              .data(dataNames.events, events);
 
-          var newVals = this.extractValidations(opt.validateIndicator + '(' + valString + ')', opt.validateIndicator),
-              oldVals = this.extractValidations(val, opt.validateIndicator),
-              inVals = function(name, vals) {
-                for(i = 0; i < vals.length; i++) {
-                  if(vals.name == name) {
-                    return true;
-                  }
-                }
-              },
-              youMayWantToRewriteThisPart = '';
-    
-          
-          for(o = 0; o < oldVals.length; o++) {
-            var valstring = oldVals[o].name;
-
-            if(oldVals[o].arguments.length) {
-              valstring = valstring + '(' + oldVals[o].arguments.join(',') + ')';
-            }
-
-            youMayWantToRewriteThisPart += valstring + ',';
-          }
-          
-          for(n = 0; n < newVals.length; n++) {
-            if(!inVals(newVals[n].name, oldVals)) {
-              var valstring = newVals[n].name;
-              
-              if(newVals[n].arguments.length) {
-                valstring = valstring + '(' + newVals[n].arguments.join(',') + ')';
-              }
-              
-              youMayWantToRewriteThisPart += valstring + ',';
-            }
-          }
-                    
-          valString = youMayWantToRewriteThisPart;
-        }
-        
-        els.data(dataNames.validationString, opt.validateIndicator + '(' + valString + ')')
-           .data(dataNames.events, events);
-
-        retArr.push(els.get());
+        retArr.push(valEls.get());
       }
       
       return this.normalizeArray(retArr);
+    },
+    
+    
+    mergeEventsString: function(valEls, events) {
+      var oldEvents = valEls.data(this.dataNames.events),
+          newEvents = '';
+      
+      if(oldEvents) {
+        var eveArr = oldEvents.split(' ');
+        
+        for(i = 0; i < eveArr.length; i++) {
+          if(events.indexOf(eveArr[i]) == -1) {
+            newEvents += ' ' + eveArr[i];
+          }
+        }
+      }
+      
+      return $.trim(events + newEvents);
+    },
+    
+    
+    mergeValidationString: function(valEls, newValString) {
+      var opt          = this.options,
+          valString    = valEls.data(this.dataNames.validationString),
+          buildValFunc = function(validation) {
+                           var ret = validation.name;
+                           
+                           if(validation.arguments.length) {
+                             ret = ret + '(' + validation.arguments.join(',') + ')';
+                           }
+                           
+                           return ret;
+                         },
+          inVals       = function(valsToCheck, val) {
+                           for(i = 0; i < valsToCheck.length; i++) {
+                             if(valsToCheck[i].name == val.name) {
+                               return true;
+                             }
+                           }
+                         };
+      
+      if(valString) {
+        var newVals      = this.extractValidations(opt.validateIndicator + '(' + newValString + ')', opt.validateIndicator),
+            oldVals      = this.extractValidations(valString, opt.validateIndicator);
+            newValString = '';
+        
+        for(o = 0; o < oldVals.length; o++) {
+          newValString += buildValFunc(oldVals[o]) + ',';
+        }
+        
+        for(n = 0; n < newVals.length; n++) {
+          if(!inVals(oldVals, newVals[n])) {
+            newValString += buildValFunc(newVals[n]) + ',';
+          }
+        }
+      }
+      
+      return newValString;
     },
     
     
@@ -392,7 +401,7 @@
             return $.trim(n.replace('(', '').replace(')', ''));
           });
         }
-        
+
         var valFunc = this.validations[valName];
         
         if(valFunc && valFunc.message) {
