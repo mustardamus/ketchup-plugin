@@ -457,6 +457,47 @@ $('#custom-behavior').ketchup({
 });
 </code></pre>
 
+<h2>Ketchup Events</h2>
+
+<h3>Your HTML</h3>
+
+<pre><code>&lt;form id="ketchup-events" action="index.html"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;label for="ke-username"&gt;Username&lt;/label&gt;
+      &lt;input type="text" id="ke-username" data-validate="validate(required, username, minlength(5))" /&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;input type="submit" value="Is Tasty?" /&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h3>Your Javascript</h3>
+
+<pre><code>$('#ketchup-events')
+  .bind('formIsValid', function(event, form) {
+    //do whatever when the form is valid
+    //form - the form that is valid (jQuery Object)
+  })
+  .bind('formIsInvalid', function(event, form) {
+    //do whatever when the form is invalid
+    //form - the form that is invalid (jQuery Object)
+  })
+  .bind('fieldIsValid', function(event, form, el) {
+    //do whatever if a field is valid
+    //form - the form where the el is located (jQuery Object)
+    //el   - the element that is valid (jQuery Object)
+  })
+  .bind('fieldIsInvalid', function(event, form, el) {
+    //do whatever if a field is invalid
+    //form - the form where the el is located (jQuery Object)
+    //el   - the element that is invalid (jQuery Object)
+  })
+  .ketchup();
+</code></pre>
+
 <h2>Check if the form and fields are valid from outside</h2>
 
 <p>You can use Ketchup's internal function to check if a form or a field is valid from your own script without
@@ -524,13 +565,6 @@ form
   })
   .last().keyup();
 </code></pre>
-
-<h2>To-Do</h2>
-
-<ul>
-<li>Trigger events (fieldIsInvalid fieldIsValid formIs...)</li>
-</ul>
-
 
 <h2>Default Options</h2>
 

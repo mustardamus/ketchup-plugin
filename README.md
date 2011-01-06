@@ -432,6 +432,47 @@ creating, showing and hiding the error container and add error messages complete
     });
 
 
+Ketchup Events
+--------------
+
+### Your HTML
+
+    <form id="ketchup-events" action="index.html">
+      <ul>
+        <li>
+          <label for="ke-username">Username</label>
+          <input type="text" id="ke-username" data-validate="validate(required, username, minlength(5))" />
+        </li>
+        <li>
+          <input type="submit" value="Is Tasty?" />
+        </li>
+      </ul>
+    </form>
+
+### Your Javascript
+    
+    $('#ketchup-events')
+      .bind('formIsValid', function(event, form) {
+        //do whatever when the form is valid
+        //form - the form that is valid (jQuery Object)
+      })
+      .bind('formIsInvalid', function(event, form) {
+        //do whatever when the form is invalid
+        //form - the form that is invalid (jQuery Object)
+      })
+      .bind('fieldIsValid', function(event, form, el) {
+        //do whatever if a field is valid
+        //form - the form where the el is located (jQuery Object)
+        //el   - the element that is valid (jQuery Object)
+      })
+      .bind('fieldIsInvalid', function(event, form, el) {
+        //do whatever if a field is invalid
+        //form - the form where the el is located (jQuery Object)
+        //el   - the element that is invalid (jQuery Object)
+      })
+      .ketchup();
+
+
 Check if the form and fields are valid from outside
 ---------------------------------------------------
 
@@ -496,11 +537,6 @@ If you want to trigger the validation from your script use `el.ketchup('validate
         });
       })
       .last().keyup();
-
-
-To-Do
------
- * Trigger events (fieldIsInvalid fieldIsValid formIs...)
 
 
 Default Options

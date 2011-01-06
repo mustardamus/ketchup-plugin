@@ -273,6 +273,8 @@
           tasty = false;
         }
       });
+
+      form.trigger('formIs' + (tasty ? 'Valid' : 'Invalid'), [form]);
       
       return tasty;
     },
@@ -326,6 +328,8 @@
           tasty.push(vals[i].message);
         }
       }
+      
+      form.trigger('fieldIs' + (tasty.length ? 'Invalid' : 'Valid'), [form, el]);
       
       return tasty.length ? tasty : true;
     },
