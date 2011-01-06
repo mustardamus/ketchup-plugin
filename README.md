@@ -1,10 +1,7 @@
 jQuery Ketchup Plugin - Tasty Form Validation
 =============================================
 
-> This is still in development. Anyway, feel free to test it and tell me what you think at twitter `@mustardamus`
-> or `@usejquery`. This doc has live demos in `docs/index.html` Have fun!
-
-Ketchup is a small (xxx minified) jQuery Plugin that helps you to validate your forms.
+Ketchup is a small (3.4KB minified & gzipped) jQuery Plugin that helps you to validate your forms.
 Out of the box it has 18 basic validations and a bubble like style. But truly this
 Plugin wants to be hacked to fit your needs. Easily write your own validations and overwrite/extend
 the default behaviour. Bubbles are not for everyone...
