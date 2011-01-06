@@ -551,3 +551,12 @@ Default Options
     showErrorContainer  : null,                           //function to show the error container (can also be set via $.ketchup.showErrorContainer(fn))
     hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.ketchup.hideErrorContainer(fn))
     addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.ketchup.addErrorMessages(fn))
+
+
+License and Copyright
+---------------------
+
+The jQuery Ketchup Plugin is dual licensed under the [GPL](http://www.gnu.org/licenses/gpl.html
+) and [MIT](http://www.opensource.org/licenses/mit-license.php) licenses.
+
+(c) 2011 Sebastian Senf - [http://mustardamus.com](http://mustardamus.com) - [http://usejquery.com](http://usejquery.com) - [@mustardamus](http://twitter.com/mustardamus)

@@ -1,3 +1,23 @@
+/*
+  jQuery Ketchup Plugin - Tasty Form Validation
+  ---------------------------------------------
+  
+  Version 0.3 - 06. Jan 2011
+  Version 0.1 - 12. Feb 2010
+  
+  Copyright (c) 2011 by Sebastian Senf:
+    http://mustardamus.com/
+    http://usejquery.com/
+    http://twitter.com/mustardamus
+
+  Dual licensed under the MIT and GPL licenses:
+    http://www.opensource.org/licenses/mit-license.php
+    http://www.gnu.org/licenses/gpl.html
+
+  Demo: http://demos.usejquery.com/ketchup-plugin/
+  Repo: http://github.com/mustardamus/ketchup-plugin
+*/
+
 (function($) {
   $.ketchup = {
     defaults: {
