@@ -1,0 +1,118 @@
+html { font-size: 16px; }
+body {
+  font-size: 62.5%;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #333333;
+  text-align: center;
+  background: url(../images/bg.jpg) no-repeat top left fixed white;
+  padding: 10px 0;
+}
+#wrapper {
+  margin: 0 auto;
+  width: 800px;
+  text-align: left;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 5px #dddddd;
+  -moz-box-shadow: 0 0 5px #dddddd;
+  -webkit-box-shadow: 0 0 5px #dddddd;
+}
+h1, h2, h3 {
+  color: #222222;
+  font-weight: normal;
+}
+h1 {
+  font-size: 3em;
+  line-height: 3em;
+  padding: 16px 28px 8px 28px;
+}
+h2 {
+  font-size: 2.2em;
+  line-height: 2.2em;
+  padding: 22px 28px 14px 28px;
+  border-top: 1px solid #eeeeee;
+}
+h3 {
+  font-size: 1.6em;
+  padding: 14px 28px 14px 28px;
+}
+a {
+  color: #2261a1;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+p {
+  font-size: 1.4em;
+  line-height: 1.45em;
+  padding: 0 28px 16px 28px;
+}
+ul {
+  font-size: 1.3em;
+  line-height: 1.4em;
+  padding: 0 28px 16px 66px;
+}
+ul p {
+  font-size: 1em;
+  padding-left: 0;
+}
+ol {
+  font-size: 1.3em;
+  line-height: 1.4em;
+  padding: 0 28px 16px 66px;
+}
+ol p {
+  font-size: 1em;
+  padding-left: 0;
+}
+ul { list-style: disc; }
+ol { list-style: decimal; }
+pre {
+  background: #222222;
+  font-size: 1.35em;
+  color: white;
+  padding: 14px 28px;
+  margin-bottom: 14px;
+  overflow: auto;
+  border-top: 1px solid #111111;
+  line-height: 1.4em;
+}
+p code { color: #111111; }
+ul code { color: #111111; }
+ol code { color: #111111; }
+blockquote {
+  color: #aaaaaa;
+  border-left: 3px solid #aaaaaa;
+  margin: 0 0 14px 66px;
+  padding: 7px 14px 7px 8px;
+}
+.demo {
+  background: #fffce8;
+  padding: 14px 28px;
+  border-top: 1px solid #ffe0bb;
+  font-size: 1.3em;
+}
+.demo ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 34px;
+  font-size: 1em;
+}
+.demo ul label {
+  display: block;
+  cursor: pointer;
+}
+.demo ul input[type="submit"] { cursor: pointer; }
+#jobsearch {
+  text-align: center;
+  font-size: 1.1em;
+  background: #226292;
+  color: white;
+  padding: 15px 0;
+  text-shadow: 1px 1px 0 #1b4b6f;
+  border-bottom: 1px solid #1b4b6f;
+}
+#jobsearch a {
+  color: white;
+  text-decoration: underline;
+}
