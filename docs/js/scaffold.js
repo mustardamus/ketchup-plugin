@@ -55,4 +55,11 @@ $(document).ready(function() {
       good(codes.js.code);
     }
   });
+  
+  
+  //shameless reverse job search
+  $('<div/>', {
+    id: 'jobsearch',
+    html: 'Do you need Frontend/Javascript/jQuery help with your project? I\'m looking for new freelance gigs! Please send me a email to <a href="mailto:contact@mustardamus.com">contact@mustardamus.com</a>.'
+  }).prependTo('#wrapper');
 });

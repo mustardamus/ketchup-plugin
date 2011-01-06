@@ -103,3 +103,16 @@ blockquote {
   cursor: pointer;
 }
 .demo ul input[type="submit"] { cursor: pointer; }
+#jobsearch {
+  text-align: center;
+  font-size: 1.1em;
+  background: #226292;
+  color: white;
+  padding: 15px 0;
+  text-shadow: 1px 1px 0 #1b4b6f;
+  border-bottom: 1px solid #1b4b6f;
+}
+#jobsearch a {
+  color: white;
+  text-decoration: underline;
+}
