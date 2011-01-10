@@ -320,7 +320,9 @@
             opt.addErrorMessages(form, el, container, tasty);	        
             opt.showErrorContainer(form, el, container);
           } else {
-            opt.hideErrorContainer(form, el, container);
+            if(container){
+              opt.hideErrorContainer(form, el, container);
+            }
           }
         });
         
