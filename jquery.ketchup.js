@@ -2,8 +2,13 @@
   jQuery Ketchup Plugin - Tasty Form Validation
   ---------------------------------------------
   
-  Version 0.3 - 06. Jan 2011
-  Version 0.1 - 12. Feb 2010
+  Version 0.3.1 - 12. Jan 2011
+    - Check if error-container exists (by Emil Marashliev)
+    - Make it work in IE6/7 (by https://github.com/hellokingdom)
+  Version 0.3   - 06. Jan 2011
+    - Rewritten from scratch
+  Version 0.1   - 12. Feb 2010
+    - Initial release
   
   Copyright (c) 2011 by Sebastian Senf:
     http://mustardamus.com/
@@ -389,7 +394,7 @@
           validations  = [];
       
       for(var i = 0; i < fullString.length; i++) {
-        switch(fullString[i]) {
+        switch(fullString.charAt(i)) {
           case '(':
             tempStr += '(';
             openBrackets++;
