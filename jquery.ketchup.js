@@ -416,7 +416,7 @@
             }
             break;
           default:
-            tempStr += fullString[i];
+            tempStr += fullString.charAt(i);
             break;
         }
       }
