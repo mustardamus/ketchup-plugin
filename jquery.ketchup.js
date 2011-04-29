@@ -2,6 +2,8 @@
   jQuery Ketchup Plugin - Tasty Form Validation
   ---------------------------------------------
   
+  Version 0.3.2 - 31. Jan 2011
+    - Fixed another IE problem (by https://github.com/philippbosch)
   Version 0.3.1 - 12. Jan 2011
     - Check if error-container exists (by Emil Marashliev)
     - Make it work in IE6/7 (by https://github.com/hellokingdom)
