@@ -539,7 +539,7 @@
       } else {
         var list = container.children('ul');
         
-        list.html('');
+        list.empty();
         
         for(i = 0; i < messages.length; i++) {
           $('<li/>', {
