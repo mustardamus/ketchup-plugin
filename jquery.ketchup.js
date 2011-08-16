@@ -77,7 +77,7 @@
     
     
     messages: function(messages) {
-      for(name in messages) {
+      for(var name in messages) {
         this.addMessage(name, messages[name]);
       }
       
@@ -124,7 +124,7 @@
                         'addErrorMessages'
                       ];
 
-      for(f = 0; f < initFuncs.length; f++) {
+      for(var f = 0; f < initFuncs.length; f++) {
         var funcName = initFuncs[f];
     
         if(!opt[funcName]) {
@@ -155,7 +155,7 @@
     callInitFunctions: function(form, el) {
       var vals = el.data(this.dataNames.validations);
       
-      for(i = 0; i < vals.length; i++) {
+      for(var i = 0; i < vals.length; i++) {
         vals[i].init.apply(this.helpers, [form, el]);
       }
     },
@@ -169,7 +169,7 @@
           retArr    = [];
           valEls    = typeof valEls == 'string' ? [valEls] : valEls;
       
-      for(i = 0; i < valEls.length; i++) {
+      for(var i = 0; i < valEls.length; i++) {
         var els = form.find(valEls[i] + '[' + opt.attribute + '*=' + opt.validateIndicator + ']');
         
         els.each(function() {
@@ -192,7 +192,7 @@
           dataNames = this.dataNames,
           retArr    = [];
       
-      for(s in fields) {
+      for(var s in fields) {
         var valString, events;
         
         if(typeof fields[s] == 'string') {
@@ -224,7 +224,7 @@
       if(oldEvents) {
         var eveArr = oldEvents.split(' ');
         
-        for(i = 0; i < eveArr.length; i++) {
+        for(var i = 0; i < eveArr.length; i++) {
           if(events.indexOf(eveArr[i]) == -1) {
             newEvents += ' ' + eveArr[i];
           }
@@ -248,7 +248,7 @@
                            return ret;
                          },
           inVals       = function(valsToCheck, val) {
-                           for(i = 0; i < valsToCheck.length; i++) {
+                           for(var i = 0; i < valsToCheck.length; i++) {
                              if(valsToCheck[i].name == val.name) {
                                return true;
                              }
@@ -260,11 +260,11 @@
             oldVals      = this.extractValidations(valString, opt.validateIndicator);
             newValString = '';
         
-        for(o = 0; o < oldVals.length; o++) {
+        for(var o = 0; o < oldVals.length; o++) {
           newValString += buildValFunc(oldVals[o]) + ',';
         }
         
-        for(n = 0; n < newVals.length; n++) {
+        for(var n = 0; n < newVals.length; n++) {
           if(!inVals(oldVals, newVals[n])) {
             newValString += buildValFunc(newVals[n]) + ',';
           }
@@ -313,7 +313,7 @@
           dataNames = this.dataNames,
           events    = el.data(dataNames.events).split(' ');
       
-      for(i = 0; i < events.length; i++) {
+      for(var i = 0; i < events.length; i++) {
         el.bind('ketchup.' + events[i], function() {
           var tasty     = self.validateElement(el, form),
               container = el.data(dataNames.container);
@@ -352,7 +352,7 @@
           vals  = el.data(this.dataNames.validations),
           args  = [form, el, el.val()];
 
-      for(i = 0; i < vals.length; i++) {
+      for(var i = 0; i < vals.length; i++) {
         if(!vals[i].func.apply(this.helpers, args.concat(vals[i].arguments))) {
           tasty.push(vals[i].message);
         }
@@ -423,7 +423,7 @@
         }
       }
       
-      for(v = 0; v < tempArr.length; v++) {
+      for(var v = 0; v < tempArr.length; v++) {
         var hasArgs = tempArr[v].indexOf('('),
             valName = tempArr[v],
             valArgs = [];
@@ -440,7 +440,7 @@
         if(valFunc && valFunc.message) {
           var message = valFunc.message;
           
-          for(a = 1; a <= valArgs.length; a++) {
+          for(var a = 1; a <= valArgs.length; a++) {
             message = message.replace('{arg' + a + '}', valArgs[a - 1]);
           }
           
@@ -473,8 +473,8 @@
     normalizeArray: function(array) {
       var returnArr = [];
       
-      for(i = 0; i < array.length; i++) {
-        for(e = 0; e < array[i].length; e++) {
+      for(var i = 0; i < array.length; i++) {
+        for(var e = 0; e < array[i].length; e++) {
           if(array[i][e]) {
             returnArr.push(array[i][e]);
           }
@@ -541,7 +541,7 @@
         
         list.html('');
         
-        for(i = 0; i < messages.length; i++) {
+        for(var i = 0; i < messages.length; i++) {
           $('<li/>', {
             text: messages[i]
           }).appendTo(list);
