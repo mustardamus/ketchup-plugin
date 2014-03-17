@@ -46,7 +46,7 @@ jQuery.ketchup
 })
 
 .validation('email', 'Must be a valid E-Mail.', function(form, el, value) {
-    return this.isEmail(value);
+    return ($.trim(value).length > 0) ? this.isEmail(value) : true
 })
 
 .validation('url', 'Must be a valid URL.', function(form, el, value) {
