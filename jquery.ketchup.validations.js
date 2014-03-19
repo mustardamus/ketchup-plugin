@@ -4,7 +4,7 @@ jQuery.ketchup
   var type = el.attr('type').toLowerCase();
   
   if(type == 'checkbox' || type == 'radio') {
-    return (el.attr('checked') == true);
+    return ((el.attr('checked') || el.prop('checked')) == true);
   } else {
     return (value.length != 0);
   }
