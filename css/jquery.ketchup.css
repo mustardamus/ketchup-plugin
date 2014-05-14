@@ -1,6 +1,7 @@
 .ketchup-error {
   position: absolute;
   width: auto;
+  z-index: 9999;
 }
 
 .ketchup-error ul {

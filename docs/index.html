@@ -432,7 +432,7 @@ of all error messages the field fails to validate.</p></li>
 })
 
 .addErrorMessages(function(form, el, container, messages) {
-  container.html('');
+  container.empty();
 
   for(i = 0; i &lt; messages.length; i++) {
     $('&lt;li/&gt;', {
@@ -549,7 +549,7 @@ otherwise it returns <code>false</code>.</p>
 form
   .ketchup()
   .find('input').keyup(function() {
-    result.html('');
+    result.empty();
 
     $.each([form, mail, username], function(index, el) {
       var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
